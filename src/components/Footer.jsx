@@ -2,7 +2,11 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div>Footer</div>
+    <footer>
+      <div className='container'>
+        <p>Ecommerce created during Wizeline’s Academy React Bootcamp</p>
+      </div>
+    </footer>
   )
 }
 

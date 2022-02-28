@@ -4,10 +4,12 @@ import {Footer, Navbar} from './'
 
 const Layout = () => {
   return (
-    <div>
+    <div className='page-container'>
         <Navbar />
-        <div className='main'>
-            {}
+        <div className='container'>
+          <div className='main'>
+              {}
+          </div>
         </div>
         <Footer />
     </div>

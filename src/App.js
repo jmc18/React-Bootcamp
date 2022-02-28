@@ -1,18 +1,14 @@
 import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
 
-import {Home} from './pages'
-import {Navbar} from './components'
+import {Layout} from './components'
 
 function App() {
   const { data, isLoading } = useFeaturedBanners();
   console.log(data, isLoading);
 
   return (
-    <div className="App">
-      <Navbar />
-      <Home />
-    </div>
-  );
+    <Layout />
+  )
 }
 
 export default App;

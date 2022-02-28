@@ -71,6 +71,11 @@ img {
   }
 }
 
+.page-container {
+  min-height: 100vh;
+  position: relative;
+}
+
 .container {
   width: 100%;
   max-width: 1620px;
@@ -89,7 +94,7 @@ img {
 .main {
   margin-top: $header-height;
   margin-bottom: 2rem;
-  min-height: 100vh;
+
 
   @include tablet {
     margin-top: calc(#{$header-tablet-height} + 20px);
