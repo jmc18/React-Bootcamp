@@ -1,6 +1,7 @@
 import React from 'react'
 
-import {Footer, Navbar} from './'
+import {Home} from '../pages'
+import {Footer, Navbar} from './index'
 
 const Layout = () => {
   return (
@@ -8,7 +9,7 @@ const Layout = () => {
         <Navbar />
         <div className='container'>
           <div className='main'>
-              {}
+              <Home />
           </div>
         </div>
         <Footer />
