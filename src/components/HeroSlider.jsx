@@ -47,16 +47,16 @@ function HeroSlider ({controls, auto, timeOut}) {
             }
             {
                 controls ? (
-                    <div className="hero-slider__control">
-                        <div className="hero-slider__control__item" onClick={prevSlide}>
+                    <div className="control">
+                        <div className="item" onClick={prevSlide}>
                             <i className="bx bx-chevron-left" />
                         </div>
-                        <div className="hero-slider__control__item">
+                        <div className="item">
                             <div className="index">
-                                {activeSlide + 1}/{data.length}
+                                {activeSlide + 1}/{dataSlider?.length}
                             </div>
                         </div>
-                        <div className="hero-slider__control__item" onClick={nextSlide}>
+                        <div className="item" onClick={nextSlide}>
                             <i className="bx bx-chevron-right" />
                         </div>
                     </div>
@@ -73,28 +73,28 @@ HeroSlider.propTypes = {
 }
 
 const HeroSliderItem = props => (
-  <div className={`hero-slider__item ${props.active ? 'active' : ''}`}>
-      <div className="hero-slider__item__info">
-          <div className={`hero-slider__item__info__title `}>
-              <span>{props.item.title}</span>
+  <div className={`slide-item ${props.active ? 'active' : ''}`}>
+      <div className="item-info">
+          <div className="info-title">
+              <span>{props.item.data.title}</span>
           </div>
-          <div className="hero-slider__item__info__description">
-              <span>{}</span>
+          <div className="info-description">
+              <span>{props.item?.data?.description[0]?.text}</span>
           </div>
-          <div className="hero-slider__item__info__btn">
+          <div className="info-btn">
               
                   <Button
                       backgroundColor={props.item.color}
                       icon="bx bx-cart"
                       animate={true}
                   >
-                      xem chi tiết
+                      Buy Now
                   </Button>
               
           </div>
       </div>
-      <div className="hero-slider__item__image">
-          <div className={`shape bg-prymary`}>{}</div>
+      <div className="item-image">
+          <div className="shape">{}</div>
           <img src={props.item.data.main_image.url} alt="" />
       </div>
   </div>
