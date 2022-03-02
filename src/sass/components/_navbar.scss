@@ -48,6 +48,11 @@
             text-transform: none;
             color: $light-color;
             border: none;
+
+            &:focus {
+                border: 0;
+                outline: 0;
+            }
         }
 
         label {
@@ -83,7 +88,7 @@
         &:hover{
             color: $gold-color;
         }
-
+        
         span {
             background-color: $red-color;
             color: $txt-white;

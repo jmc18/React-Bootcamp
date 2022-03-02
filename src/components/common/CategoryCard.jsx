@@ -1,9 +1,21 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function CategoryCard() {
+
+const CategoryCard = ({categoryName, imageUrl, altImage}) => {
   return (
-    <div>CategoryCard</div>
+    <div className='category-card'>
+      <img src={imageUrl} alt={altImage} />
+      <span>{categoryName}</span>
+    </div>
   )
+}
+
+
+CategoryCard.propTypes = {
+  categoryName: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  altImage: PropTypes.string,
 }
 
 export default CategoryCard

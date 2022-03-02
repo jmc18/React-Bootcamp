@@ -2,14 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import {Button} from './common/index'
- 
-import {useFeaturedBanners} from '../utils/hooks/useFeaturedBanners'
+
+import FeaturedBanners from '../utils/mocks/en-us/featured-banners.json'
 
 function HeroSlider ({controls, auto, timeOut}) {
   const [activeSlide, setActiveSlide] = useState(0)
-  const [dataSlider, setDataSlider] = useState({})
-
-  const {data, isLoading} = useFeaturedBanners()
+  const [dataSlider, setDataSlider] = useState([])
 
   const nextSlide = useCallback(
     () => {
@@ -25,7 +23,7 @@ function HeroSlider ({controls, auto, timeOut}) {
   }
 
   useEffect(() => {
-    setDataSlider(data.results)
+    setDataSlider(FeaturedBanners.results)
     if (auto) {
         const slideAuto = setInterval(() => {
             nextSlide()
@@ -34,16 +32,14 @@ function HeroSlider ({controls, auto, timeOut}) {
             clearInterval(slideAuto)
         }
     }
-  }, [nextSlide, timeOut, auto, data])
+  }, [nextSlide, timeOut, auto, dataSlider])
 
   return (
     <div className="hero-slider">
             {
-              !isLoading ? (
                 dataSlider?.map((item, index) => (
-                  <HeroSliderItem key={index} item={item} active={index === activeSlide}/>
-              ))
-              ) : null
+                    <HeroSliderItem key={index} item={item} active={index === activeSlide}/>
+                ))
             }
             {
                 controls ? (
