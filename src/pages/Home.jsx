@@ -1,11 +1,12 @@
 import React from 'react'
 
-import {HeroSlider, Helmet} from '../components'
+import {HeroSlider, Helmet, Categories} from '../components'
 
 const Home = () => {
   return (
     <Helmet title="Home Page">
-      <HeroSlider controls={true} auto={false} timeOut={5000} />
+      <HeroSlider controls={true} auto={true} timeOut={5000} />
+      <Categories />
     </Helmet>
   )
 }

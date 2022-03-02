@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import {Button} from './index'
+import {Button} from './common/index'
  
 import {useFeaturedBanners} from '../utils/hooks/useFeaturedBanners'
 
