@@ -2,15 +2,15 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <header class="header">
-        <a href="home.html" class="logo"> <i class="bx bx-store" /> shopie </a>
+    <header className="header">
+        <a href="home.html" className="logo"> <i className="bx bx-store" /> shopie </a>
 
-        <form class="search-form">
+        <form className="search-form">
             <input type="search" id="search-box" placeholder="search here..." />
-            <label for="search-box" class="bx bx-search">{}</label>
+            <label htmlFor="search-box" className="bx bx-search">{}</label>
         </form>
 
-        <div class="icons">
+        <div className="icons">
             <a href="cart.html">
             <i className="bx bx-shopping-bag" />
             <span>0</span>
