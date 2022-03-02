@@ -1,9 +1,14 @@
 import React from 'react'
 
+import logo from '../assets/images/logo.webp'
+
 const Navbar = () => {
   return (
     <header className="header">
-        <a href="/" className="logo"> <i className="bx bx-store" /> shopie </a>
+        <a href="/" className="logo"> 
+          <img src={logo} alt='logo' data-testid="company-logo" /> 
+          <span data-testid="company-name">shopie</span> 
+        </a>
 
         <form className="search-form">
             <input type="search" id="search-box" placeholder="search here..." />

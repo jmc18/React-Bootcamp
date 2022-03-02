@@ -19,10 +19,29 @@
         font-weight: bold;
         text-transform: capitalize;
         text-align: center;
-        margin-right: 2rem;
+        display: flex;
+        align-items: center;
 
-        i {
-          color: $gold-color;  
+        @include tablet {
+            flex-direction: column;
+            width: 205px;
+        }
+
+        @include tablet-only {
+            flex-direction: column;
+            width: 140px;
+        }
+
+        @include mobile-only {
+            flex-direction: column;
+            width: 182px;
+            margin-left: -50px;
+        }
+
+        img {
+          width: 50px;
+          height: auto;
+          margin-right: 0.5rem;
         }
     }
 
