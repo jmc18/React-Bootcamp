@@ -3,11 +3,9 @@ import PropTypes from 'prop-types'
 
 import {Button} from './common/index'
 
-import FeaturedBanners from '../utils/mocks/en-us/featured-banners.json'
-
-const HeroSlider = ({controls, auto, timeOut}) => {
+const HeroSlider = ({controls, auto, timeOut, data}) => {
   const [activeSlide, setActiveSlide] = useState(0)
-  const [dataSlider, setDataSlider] = useState([])
+  const dataSlider = data?.results
 
   const nextSlide = useCallback(
     () => {
@@ -31,11 +29,7 @@ const HeroSlider = ({controls, auto, timeOut}) => {
             clearInterval(slideAuto)
         }
     }
-  }, [nextSlide, timeOut, auto, dataSlider])
-
-  useEffect(() => {
-    setDataSlider(FeaturedBanners.results)
-  }, [dataSlider])
+  }, [nextSlide, timeOut, auto])
 
   return (
     <div className="hero-slider">
@@ -69,6 +63,7 @@ HeroSlider.propTypes = {
   controls: PropTypes.bool,
   auto: PropTypes.bool,
   timeOut: PropTypes.number,
+  data: PropTypes.object.isRequired,
 }
 
 const HeroSliderItem = props => (

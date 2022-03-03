@@ -1,19 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import {ProductCard, Grid} from './common'
 
-import FeaturedProductsData from '../utils/mocks/en-us/featured-products.json'
-
-const Products = ({viewType}) => {
-    const [data, setData] = useState(null)
-    useEffect(() => {
-        setData(FeaturedProductsData.results)
-    }, [data])
+const Products = ({viewType, data}) => {
     return (
         <section className='categories'>
             <Grid col={4} mdCol={2} smCol={1} gap={20}>
                 {
-                    data?.map((item, index) => 
+                    data?.results?.map((item, index) => 
                         <ProductCard 
                             key={index}
                             img1={item.data.mainimage.url}
@@ -29,5 +24,10 @@ const Products = ({viewType}) => {
         </section>
     )
 }
+
+Products.propTypes = {
+    data: PropTypes.object.isRequired,
+    viewType: PropTypes.string,
+  }
 
 export default Products
