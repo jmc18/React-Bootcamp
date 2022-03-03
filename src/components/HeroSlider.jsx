@@ -5,7 +5,7 @@ import {Button} from './common/index'
 
 import FeaturedBanners from '../utils/mocks/en-us/featured-banners.json'
 
-function HeroSlider ({controls, auto, timeOut}) {
+const HeroSlider = ({controls, auto, timeOut}) => {
   const [activeSlide, setActiveSlide] = useState(0)
   const [dataSlider, setDataSlider] = useState([])
 
@@ -23,7 +23,6 @@ function HeroSlider ({controls, auto, timeOut}) {
   }
 
   useEffect(() => {
-    setDataSlider(FeaturedBanners.results)
     if (auto) {
         const slideAuto = setInterval(() => {
             nextSlide()
@@ -33,6 +32,10 @@ function HeroSlider ({controls, auto, timeOut}) {
         }
     }
   }, [nextSlide, timeOut, auto, dataSlider])
+
+  useEffect(() => {
+    setDataSlider(FeaturedBanners.results)
+  }, [dataSlider])
 
   return (
     <div className="hero-slider">
