@@ -8,8 +8,8 @@ describe('Navbar component', () => {
         render(<Navbar />)
 
         // get by TestIds defined in the navBar
-        const companyLogo = screen.getByTestId(/company-logo/i)
-        const companyName = screen.getByTestId(/company-name/i)
+        const companyLogo = screen.getByTestId('company-logo')
+        const companyName = screen.getByTestId('company-name')
         
         //Assert
         expect(companyLogo).toBeInTheDocument()
