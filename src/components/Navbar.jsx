@@ -1,14 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import logo from '../assets/images/logo.webp'
 
-const Navbar = () => {
+const Navbar = ({navigate}) => {
+
   return (
     <header className="header">
-        <a href="/" className="logo"> 
+        <div className="logo" onClick={navigate ? () => navigate('Home') : null}> 
           <img src={logo} alt='logo' data-testid="company-logo" /> 
           <span data-testid="company-name">shopie</span> 
-        </a>
+        </div>
 
         <form className="search-form">
             <input type="search" id="search-box" placeholder="search here..." />
@@ -23,6 +25,10 @@ const Navbar = () => {
         </div>
     </header>
   )
+}
+
+Navbar.propTypes = {
+  navigate: PropTypes.func,
 }
 
 export default Navbar
