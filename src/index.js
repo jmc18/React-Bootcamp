@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import App from './App'
+
+import './assets/boxicons/css/boxicons.min.css'
+import './sass/index.scss'
 
 ReactDOM.render(
   <React.StrictMode>
