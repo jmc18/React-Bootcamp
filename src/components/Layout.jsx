@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {Home, ProductList} from '../pages'
 import {Footer, Navbar} from './index'
 
-function Layout () {
+const Layout = () => {
 
   const [pageToRender, setPageToRender] = useState('Home')
 
