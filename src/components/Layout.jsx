@@ -4,7 +4,7 @@ import {Footer, Navbar} from './index'
 
 function Layout () {
 
-  const [pageToRender, setPageToRender] = useState('Home')
+  const [pageToRender, setPageToRender] = useState('ProductList')
 
   const handleNavigation = (page) => {
     setPageToRender(page)
