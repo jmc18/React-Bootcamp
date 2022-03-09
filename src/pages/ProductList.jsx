@@ -1,23 +1,48 @@
-import React, {useRef, useState} from 'react'
+import React, {useRef, useState, useCallback, useEffect} from 'react'
 
 import {Helmet, Products} from '../components'
-import {Button, CheckBox} from '../components/common'
+import {Button, CheckBox, Loading} from '../components/common'
 
 import productCategories from '../utils/mocks/en-us/product-categories.json'
 import producst from '../utils/mocks/en-us/products.json'
 
 const ProductList = () => {
 
-  const [filter, setFilter] = useState([])
+  const [filters, setFilters] = useState([])
+  const [produsctList, setProdusctList] = useState(producst.results)
+  const [loading, setLoading] = useState(false)
 
   const filterSelect = (checked, item) => {
     if(checked){
-      setFilter([...filter, item.id])
+      setFilters([...filters, item.id])
     } else {
-      const newFilter = filter.filter(x => x !== item.id)
-      setFilter(newFilter)
+      const newFilter = filters.filter(x => x !== item.id)
+      setFilters(newFilter)
     }
   }
+
+  const updateProductList = useCallback(
+    () => {
+      let productsTemp = producst.results
+      if(filters.length > 0){
+        productsTemp = productsTemp.filter(x => filters.includes(x?.data?.category?.id))
+      }
+      setProdusctList(productsTemp)
+    },
+    [filters]
+  )
+
+  useEffect(() => {
+    setTimeout(
+      () => {
+        setLoading(true)
+      }, 2000
+    )
+  }, [])
+
+  useEffect(() => {
+    updateProductList()
+  }, [updateProductList])
 
   const filterRef = useRef(null)
   const showFilters = () => filterRef.current.classList.toggle('active')
@@ -41,7 +66,7 @@ const ProductList = () => {
                       <CheckBox
                           label={item?.data?.name}
                           onChange={(input) => filterSelect(input.checked, item)}
-                          checked={filter.includes(item.id)}
+                          checked={filters.includes(item.id)}
                       />
                     </div>
                   ))
@@ -55,7 +80,10 @@ const ProductList = () => {
         </div>
 
         <div className='product-list__content'>
-          <Products data={producst} viewType='ProductList' />
+          {
+            loading ? <Products data={produsctList} viewType='ProductList' />
+                    : <Loading text='Loading Products...' />
+          }
         </div>
 
       </div>

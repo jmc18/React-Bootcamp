@@ -41,7 +41,7 @@ const Home = ({navigate}) => {
           Featured Products
         </SectionTitle>
         <SectionBody>
-          <Products viewType="featuredProducts" data={featuredProductsData} />
+          <Products viewType="featuredProducts" data={featuredProductsData.results} />
         </SectionBody>
       </Section>
       <Button 
