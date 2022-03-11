@@ -3,6 +3,8 @@ import React, {useRef, useState, useCallback, useEffect} from 'react'
 import {Helmet, Products} from '../components'
 import {Button, CheckBox, Loading} from '../components/common'
 
+import {VIEW_TIPE} from '../utils/constants'
+
 import productCategories from '../utils/mocks/en-us/product-categories.json'
 import producst from '../utils/mocks/en-us/products.json'
 
@@ -11,6 +13,8 @@ const ProductList = () => {
   const [filters, setFilters] = useState([])
   const [produsctList, setProdusctList] = useState(producst.results)
   const [loading, setLoading] = useState(false)
+
+  const componentMounted = useRef(true); // (3) component is mounted
 
   const filterSelect = (checked, item) => {
     if(checked){
@@ -33,11 +37,18 @@ const ProductList = () => {
   )
 
   useEffect(() => {
+    
     setTimeout(
       () => {
-        setLoading(true)
+        if (componentMounted.current){
+          setLoading(true)
+        }
       }, 2000
     )
+
+    return () => { // This code runs when component is unmounted
+      componentMounted.current = false; // (4) set it to false when we leave the page
+    }
   }, [])
 
   useEffect(() => {
@@ -81,7 +92,7 @@ const ProductList = () => {
 
         <div className='product-list__content'>
           {
-            loading ? <Products data={produsctList} viewType='ProductList' />
+            loading ? <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} />
                     : <Loading text='Loading Products...' />
           }
         </div>

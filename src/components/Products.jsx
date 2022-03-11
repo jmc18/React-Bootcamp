@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {ProductCard, Grid, Button, NotFound} from './common'
+import {VIEW_TIPE} from '../utils/constants'
+
+import {ProductCard, Grid, NotFound, Pagination} from './common'
 
 const Products = ({viewType, data}) => {
     return (
-        data.length > 0 ? renderProdcustGrid(viewType, data) :
+        data.length > 0 ? renderProductsGrid(viewType, data) :
         <NotFound text='Products Not Found'/>
     )
 }
 
-const renderProdcustGrid = (viewType, data) => {
+const renderProductsGrid = (viewType, data) => {
     return (
         <>
             <section className='categories'>
@@ -32,41 +34,9 @@ const renderProdcustGrid = (viewType, data) => {
             </section>
 
             {
-                viewType === 'ProductList' && pagination()
+                viewType === VIEW_TIPE.PRODUCT_LIST && <Pagination />
             }
         </>
-    )
-}
-
-const pagination = () => {
-    
-    return (
-        <section className='pagination'>
-            <Grid col={3} mdCol={3} smCol={3} gap={20}>
-                <Button 
-                    animate={true}
-                    handler={() => {}}
-                    size="sm" 
-                    icon='bx bx-left-arrow-alt'
-                >
-                Prev
-                </Button>
-
-                <div className='pagination__counter'>
-                1/35
-                </div>
-                
-
-                <Button 
-                    animate={true}
-                    handler={() => {}}
-                    size="sm" 
-                    icon='bx bx-right-arrow-alt'
-                >
-                Next
-                </Button>
-            </Grid>
-        </section>
     )
 }
 

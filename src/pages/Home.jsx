@@ -5,6 +5,8 @@ import {HeroSlider, Helmet, Categories, Products} from '../components'
 import {Button} from '../components/common'
 import Section, {SectionBody, SectionTitle} from '../components/common/Section'
 
+import {LAYOUT_VIEW, VIEW_TIPE} from '../utils/constants'
+
 //Mock data
 import featuredBannersData from '../utils/mocks/en-us/featured-banners.json'
 import productCategoriesData from '../utils/mocks/en-us/product-categories.json'
@@ -41,13 +43,13 @@ const Home = ({navigate}) => {
           Featured Products
         </SectionTitle>
         <SectionBody>
-          <Products viewType="featuredProducts" data={featuredProductsData.results} />
+          <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={featuredProductsData.results} />
         </SectionBody>
       </Section>
       <Button 
         animate={false} 
         size='block'
-        handler={() => handleNavigate('ProductList')}
+        handler={() => handleNavigate(LAYOUT_VIEW.PRODUCTS)}
       >
         <i className='bx bx-store'/> View all products
       </Button>

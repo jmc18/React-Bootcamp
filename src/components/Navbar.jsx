@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import {LAYOUT_VIEW} from '../utils/constants'
+
 import logo from '../assets/images/logo.webp'
 
 const Navbar = ({navigate}) => {
 
   return (
     <header className="header">
-        <div className="logo" onClick={navigate ? () => navigate('Home') : null}> 
+        <div className="logo" onClick={navigate ? () => navigate(LAYOUT_VIEW.HOME) : null}> 
           <img src={logo} alt='logo' data-testid="company-logo" /> 
           <span data-testid="company-name">shopie</span> 
         </div>
