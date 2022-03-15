@@ -1,18 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Link } from "react-router-dom";
 
-import {LAYOUT_VIEW} from '../utils/constants'
 
 import logo from '../assets/images/logo.webp'
 
-const Navbar = ({navigate}) => {
+const Navbar = () => {
 
   return (
     <header className="header">
-        <div className="logo" onClick={navigate ? () => navigate(LAYOUT_VIEW.HOME) : null}> 
+      <Link to='/'>
+        <div className="logo"> 
           <img src={logo} alt='logo' data-testid="company-logo" /> 
           <span data-testid="company-name">shopie</span> 
         </div>
+        </Link>
 
         <form className="search-form">
             <input type="search" id="search-box" placeholder="search here..." />
@@ -27,10 +28,6 @@ const Navbar = ({navigate}) => {
         </div>
     </header>
   )
-}
-
-Navbar.propTypes = {
-  navigate: PropTypes.func,
 }
 
 export default Navbar

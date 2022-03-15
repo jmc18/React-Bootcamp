@@ -7,7 +7,7 @@ import {ProductCard, Grid, NotFound, Pagination} from './common'
 
 const Products = ({viewType, data}) => {
     return (
-        data.length > 0 ? renderProductsGrid(viewType, data) :
+        data?.length > 0 ? renderProductsGrid(viewType, data) :
         <NotFound text='Products Not Found'/>
     )
 }

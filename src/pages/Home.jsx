@@ -1,30 +1,32 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
+import { Link } from "react-router-dom";
 
 import {HeroSlider, Helmet, Categories, Products} from '../components'
 import {Button} from '../components/common'
 import Section, {SectionBody, SectionTitle} from '../components/common/Section'
 
-import {LAYOUT_VIEW, VIEW_TIPE} from '../utils/constants'
+import {VIEW_TIPE} from '../utils/constants'
 
-//Mock data
-import featuredBannersData from '../utils/mocks/en-us/featured-banners.json'
-import productCategoriesData from '../utils/mocks/en-us/product-categories.json'
-import featuredProductsData from '../utils/mocks/en-us/featured-products.json'
+//Hocks
+import {useFeaturedProducts} from '../utils/hooks/useFeaturedProducts'
+
 
 const Home = ({navigate}) => {
 
-  const handleNavigate = (page) => {
-    navigate(page)
-  }
+  const [loading, setLoading] = useState(true)
+  const {data, isLoading} = useFeaturedProducts()
+
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading])
 
   return (
     <Helmet title="Home Page">
       <HeroSlider 
         controls={true} 
         auto={true} 
-        timeOut={5000} 
-        data={featuredBannersData} />
+        timeOut={5000} />
 
     {/* Category section */}
       <Section>
@@ -32,7 +34,7 @@ const Home = ({navigate}) => {
           Categories
         </SectionTitle>
         <SectionBody>
-          <Categories data={productCategoriesData} />
+          <Categories />
         </SectionBody>
       </Section>
     {/* End category section */}
@@ -43,16 +45,22 @@ const Home = ({navigate}) => {
           Featured Products
         </SectionTitle>
         <SectionBody>
-          <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={featuredProductsData.results} />
+          {
+            !loading && 
+            <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={data?.results} />
+          }
+          
         </SectionBody>
       </Section>
-      <Button 
-        animate={false} 
-        size='block'
-        handler={() => handleNavigate(LAYOUT_VIEW.PRODUCTS)}
-      >
-        <i className='bx bx-store'/> View all products
-      </Button>
+      <Link to='/products'>
+        <Button 
+          animate={false} 
+          size='block'
+        >
+          <i className='bx bx-store'/> View all products
+        </Button>
+      </Link>
+      
     {/* End Articles section*/}
     </Helmet>
   )

@@ -1,20 +1,27 @@
-import React, {useRef, useState, useCallback, useEffect} from 'react'
+import React, {useRef, useState, useCallback, useEffect, useContext} from 'react'
 
 import {Helmet, Products} from '../components'
 import {Button, CheckBox, Loading} from '../components/common'
 
 import {VIEW_TIPE} from '../utils/constants'
 
-import productCategories from '../utils/mocks/en-us/product-categories.json'
-import producst from '../utils/mocks/en-us/products.json'
+//CategoryContext
+import CategoryContext from '../context/Category/CategoryContext'
+
+
+//Hook
+import {useProducts} from '../utils/hooks/useProducts'
 
 const ProductList = () => {
 
-  const [filters, setFilters] = useState([])
-  const [produsctList, setProdusctList] = useState(producst.results)
-  const [loading, setLoading] = useState(false)
+  const {categories} = useContext(CategoryContext)
 
-  const componentMounted = useRef(true); // (3) component is mounted
+  const {data, isLoading} = useProducts()
+
+  const [filters, setFilters] = useState([])
+  const [produsctList, setProdusctList] = useState([])
+  const [loading, setLoading] = useState(true)
+
 
   const filterSelect = (checked, item) => {
     if(checked){
@@ -27,29 +34,20 @@ const ProductList = () => {
 
   const updateProductList = useCallback(
     () => {
-      let productsTemp = producst.results
+      let productsTemp = data.results
       if(filters.length > 0){
         productsTemp = productsTemp.filter(x => filters.includes(x?.data?.category?.id))
       }
       setProdusctList(productsTemp)
     },
-    [filters]
+    [filters, data]
   )
 
   useEffect(() => {
     
-    setTimeout(
-      () => {
-        if (componentMounted.current){
-          setLoading(true)
-        }
-      }, 2000
-    )
-
-    return () => { // This code runs when component is unmounted
-      componentMounted.current = false; // (4) set it to false when we leave the page
-    }
-  }, [])
+    setProdusctList(data.results)
+    setLoading(isLoading)
+  }, [data, isLoading])
 
   useEffect(() => {
     updateProductList()
@@ -71,8 +69,8 @@ const ProductList = () => {
             </div>
             <div className='product-list__filter__widget__content'>
                 {
-                  productCategories && 
-                  productCategories?.results?.map((item) => (
+                  categories && 
+                  categories?.map((item) => (
                     <div key={item.id} className="product-list__filter__widget__content__item">
                       <CheckBox
                           label={item?.data?.name}
@@ -92,8 +90,9 @@ const ProductList = () => {
 
         <div className='product-list__content'>
           {
-            loading ? <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} />
-                    : <Loading text='Loading Products...' />
+            !loading 
+            ? <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} />
+            : <Loading text='Loading Products...' />
           }
         </div>
 
