@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 const CheckBox = props => {
@@ -6,12 +6,15 @@ const CheckBox = props => {
     const inputRef = useRef(null)
     const labelRef = useRef(null)
 
-    const onChange = ({label, onChange, checked}) => {
+    const onChange = () => {
         if (props.onChange) {
             props.onChange(inputRef.current)
         }
-        labelRef.current.classList.toggle('active')
     }
+
+    useEffect(() => {
+        props.checked && labelRef.current.classList.toggle('active')
+    }, [props.checked])
 
     return (
         <label className="custom-checkbox" ref={labelRef}>

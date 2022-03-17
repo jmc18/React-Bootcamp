@@ -1,11 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 
-import {VIEW_TIPE} from '../utils/constants'
+import {VIEW_TIPE, PAGINATION_TYPE} from '../utils/constants'
 
 import {ProductCard, Grid, NotFound, Pagination} from './common'
 
-const Products = ({viewType, data}) => {
+const Products = ({viewType, data, pageSize}) => {
+
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(Math.ceil(data?.results / pageSize))
+    const [productPage, setProductPage] = useState(data?.results.slice(0, totalPages))
+
+    const handlerPagination = (action) => {
+        if(action === PAGINATION_TYPE.PREV) {
+            
+        } else {
+
+        }
+    }
+
     return (
         data?.length > 0 ? renderProductsGrid(viewType, data) :
         <NotFound text='Products Not Found'/>
@@ -25,7 +38,7 @@ const renderProductsGrid = (viewType, data) => {
                                 img2={item.data?.images[0]?.image?.url}
                                 name={item.data.name}
                                 price={item.data.price}
-                                slug={item?.slugs[0]}
+                                productId={item.id}
                                 alt={item.data.mainimage.alt}
                             />   
                         )
@@ -43,6 +56,7 @@ const renderProductsGrid = (viewType, data) => {
 Products.propTypes = {
     data: PropTypes.array.isRequired,
     viewType: PropTypes.string,
+    pageSize: PropTypes.number,
 }
 
 export default Products

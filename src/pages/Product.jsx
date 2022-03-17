@@ -24,7 +24,6 @@ const Product = () => {
 			setProductNotFound(true)
 			setProductInfo(data.results[0])
       setPreviewImg(data?.results[0]?.data?.mainimage?.url)
-      console.log(data.results[0])
 		}
 	}, [data, isLoading]);
 
@@ -34,7 +33,9 @@ const Product = () => {
                     : setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
   }
 
-	return (
+return isLoading ? <Loading text='Loading product data...' />  
+        : !productNotFound ? <NotFound text='Product Not Found' />
+        : 
 		<div className="product-details">
 			<div className="product-details__images">
 				<div className="product-details__images__list">
@@ -175,7 +176,6 @@ const Product = () => {
             </div>
       </div>
 		</div>
-	);
-};
+}
 
 export default Product;

@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import PropTypes from 'prop-types'
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from "react-router-dom"
 
 import {HeroSlider, Helmet, Categories, Products} from '../components'
-import {Button} from '../components/common'
+import {Button, Loading, NotFound} from '../components/common'
 import Section, {SectionBody, SectionTitle} from '../components/common/Section'
 
 import {VIEW_TIPE} from '../utils/constants'
@@ -12,14 +11,9 @@ import {VIEW_TIPE} from '../utils/constants'
 import {useFeaturedProducts} from '../utils/hooks/useFeaturedProducts'
 
 
-const Home = ({navigate}) => {
+const Home = () => {
 
-  const [loading, setLoading] = useState(true)
   const {data, isLoading} = useFeaturedProducts()
-
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading])
 
   return (
     <Helmet title="Home Page">
@@ -46,8 +40,10 @@ const Home = ({navigate}) => {
         </SectionTitle>
         <SectionBody>
           {
-            !loading && 
+            isLoading ? <Loading text='Loading Featured Products...' /> :
+            data?.results_size > 0 ?
             <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={data?.results} />
+            : <NotFound text='Featured Product Not Found' />
           }
           
         </SectionBody>
@@ -64,10 +60,6 @@ const Home = ({navigate}) => {
     {/* End Articles section*/}
     </Helmet>
   )
-}
-
-Home.propTypes = {
-  navigate: PropTypes.func,
 }
 
 export default Home

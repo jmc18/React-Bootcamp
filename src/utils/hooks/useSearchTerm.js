@@ -24,9 +24,7 @@ export function useSearchTerm(searchTerm) {
           `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
             '[[at(document.type, "product")]]'
           )}
-          &q=${encodeURIComponent(
-            `[[fulltext(document, ${searchTerm})]]`
-          )}
+          &q=${encodeURIComponent('[[fulltext(document, "' + searchTerm + '")]]')}
           &lang=en-us&pageSize=20`,
           {
             signal: controller.signal,
@@ -41,12 +39,12 @@ export function useSearchTerm(searchTerm) {
       }
     }
 
-    getProductsBySearchTerm();
+    getProductsBySearchTerm(searchTerm);
 
     return () => {
       controller.abort();
     };
-  }, [apiRef, isApiMetadataLoading]);
+  }, [apiRef, isApiMetadataLoading, searchTerm]);
 
   return products;
 }

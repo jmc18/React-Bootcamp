@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import logo from '../assets/images/logo.webp'
 
 const Navbar = () => {
-
+  const navigate = useNavigate()
   return (
     <header className="header">
       <Link to='/'>
@@ -15,10 +15,30 @@ const Navbar = () => {
         </div>
         </Link>
 
-        <form className="search-form">
-            <input type="search" id="search-box" placeholder="search here..." />
-            <label htmlFor="search-box" className="bx bx-search">{}</label>
-        </form>
+        <Formik
+          initialValues={{searchTerm: ''}}
+          validate={
+            values => {
+              const errors = {}
+              if(!values.searchTerm) {
+                errors.searchTerm = 'Required'
+              }
+              return errors
+            }
+          }
+          onSubmit = {(values, {setSubmitting}) => {
+            navigate(`/search?q=${values.searchTerm}`)
+          }}
+        >
+          <Form className="search-form">
+              <Field type="search" 
+                    name="searchTerm" 
+                    component="input" 
+                    placeholder='search here...' />
+              <ErrorMessage name="email" component="div" />
+              <button type='submit' className="bx bx-search" />
+          </Form>
+        </Formik>
 
         <div className="icons">
             <a href="/">

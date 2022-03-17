@@ -1,5 +1,7 @@
 import React, {useRef, useState, useCallback, useEffect, useContext} from 'react'
 
+import {useSearchParams} from "react-router-dom";
+
 import {Helmet, Products} from '../components'
 import {Button, CheckBox, Loading} from '../components/common'
 
@@ -14,29 +16,31 @@ import {useProducts} from '../utils/hooks/useProducts'
 
 const ProductList = () => {
 
+  const [params] = useSearchParams()
+
   const {categories} = useContext(CategoryContext)
 
   const {data, isLoading} = useProducts()
 
-  const [filters, setFilters] = useState([])
+  const [filters, setFilters] = useState(params.get('category') ? [params.get('category')] : [])
   const [produsctList, setProdusctList] = useState([])
   const [loading, setLoading] = useState(true)
 
 
-  const filterSelect = (checked, item) => {
+  const filterSelect = (checked, id) => {
     if(checked){
-      setFilters([...filters, item.id])
+      setFilters([...filters, id])
     } else {
-      const newFilter = filters.filter(x => x !== item.id)
+      const newFilter = filters.filter(x => x !== id)
       setFilters(newFilter)
     }
   }
 
   const updateProductList = useCallback(
     () => {
-      let productsTemp = data.results
+      let productsTemp = data?.results
       if(filters.length > 0){
-        productsTemp = productsTemp.filter(x => filters.includes(x?.data?.category?.id))
+        productsTemp = productsTemp?.filter(x => filters.includes(x?.data?.category?.id))
       }
       setProdusctList(productsTemp)
     },
@@ -44,7 +48,6 @@ const ProductList = () => {
   )
 
   useEffect(() => {
-    
     setProdusctList(data.results)
     setLoading(isLoading)
   }, [data, isLoading])
@@ -52,6 +55,7 @@ const ProductList = () => {
   useEffect(() => {
     updateProductList()
   }, [updateProductList])
+  
 
   const filterRef = useRef(null)
   const showFilters = () => filterRef.current.classList.toggle('active')
@@ -74,7 +78,7 @@ const ProductList = () => {
                     <div key={item.id} className="product-list__filter__widget__content__item">
                       <CheckBox
                           label={item?.data?.name}
-                          onChange={(input) => filterSelect(input.checked, item)}
+                          onChange={(input) => filterSelect(input.checked, item.id)}
                           checked={filters.includes(item.id)}
                       />
                     </div>
