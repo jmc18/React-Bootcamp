@@ -1,37 +1,40 @@
-import React, {useState} from 'react'
+import React, {useState, useCallback, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 import {VIEW_TIPE, PAGINATION_TYPE} from '../utils/constants'
 
 import {ProductCard, Grid, NotFound, Pagination} from './common'
 
-const Products = ({viewType, data, pageSize}) => {
+const Products = ({viewType, data, pageSize = 1}) => {
 
-    const [page, setPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(Math.ceil(data?.results / pageSize))
-    const [productPage, setProductPage] = useState(data?.results.slice(0, totalPages))
+    const [page, setPage] = useState(0)
+    const [totalPages] = useState(pageSize === 1 ? 1 : Math.ceil(data?.length / pageSize))
+    const [productsPage, setProductsPage] = useState([])
 
     const handlerPagination = (action) => {
-        if(action === PAGINATION_TYPE.PREV) {
-            
-        } else {
-
+        if (action === PAGINATION_TYPE.PREV && page > 0) {
+            setPage(page - 1);
+        } else if (action === PAGINATION_TYPE.NEXT && page + 1 <= totalPages) {
+            setPage(page + 1);
         }
-    }
+    };
+
+    const updateProductList = useCallback(() => {
+        setProductsPage(totalPages > 1 ? data?.slice(pageSize * page, pageSize * (page + 1)) 
+        : data);
+    }, [page, data, pageSize, totalPages]);
+
+    useEffect(() => {
+        updateProductList();
+    }, [updateProductList]);
 
     return (
-        data?.length > 0 ? renderProductsGrid(viewType, data) :
-        <NotFound text='Products Not Found'/>
-    )
-}
-
-const renderProductsGrid = (viewType, data) => {
-    return (
+        !data?.length > 0 ? <NotFound text='Products Not Found'/> :
         <>
             <section className='categories'>
                 <Grid col={4} mdCol={2} smCol={1} gap={20}>
                     {
-                        data?.map((item) => 
+                        productsPage?.map((item) => 
                             <ProductCard 
                                 key={item.id}
                                 img1={item.data.mainimage.url}
@@ -47,7 +50,10 @@ const renderProductsGrid = (viewType, data) => {
             </section>
 
             {
-                viewType === VIEW_TIPE.PRODUCT_LIST && <Pagination />
+                viewType === VIEW_TIPE.PRODUCT_LIST && totalPages > 1 && <Pagination 
+                                                        activePagination={handlerPagination}
+                                                        totalPages={totalPages}
+                                                        currentPage={page + 1} />
             }
         </>
     )

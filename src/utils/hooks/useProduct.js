@@ -20,7 +20,6 @@ export function useProduct(productId) {
       try {
         setProduct({ data: {}, isLoading: true });
 
-        //const uriEncode = encodeURIComponent(`[[:d+=+at(document.id,+"${productId}")+]]`)
         const response = await fetch(
           `${API_BASE_URL}/documents/search?ref=${apiRef.trim()}
 &q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22${productId}%22%29+%5D%5D`,

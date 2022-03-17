@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, Loading } from './common/index';
@@ -9,27 +9,16 @@ import { useFeaturedBanners } from '../utils/hooks/useFeaturedBanners';
 const HeroSlider = ({ controls, auto, timeOut }) => {
 	const { data, isLoading } = useFeaturedBanners();
 	const [activeSlide, setActiveSlide] = useState(0);
-	const [dataSlider, setDataSlider] = useState([]);
-	const [loading, setLoading] = useState(true);
-
-	const componentMounted = useRef(true);
 
 	const nextSlide = useCallback(() => {
-		const index = activeSlide + 1 === dataSlider.length ? 0 : activeSlide + 1;
+		const index = activeSlide + 1 === data?.results?.length ? 0 : activeSlide + 1;
 		setActiveSlide(index);
-	}, [activeSlide, dataSlider]);
+	}, [activeSlide, data]);
 
 	const prevSlide = () => {
-		const index = activeSlide - 1 < 0 ? dataSlider.length - 1 : activeSlide - 1;
+		const index = activeSlide - 1 < 0 ? data?.results?.length - 1 : activeSlide - 1;
 		setActiveSlide(index);
 	};
-
-	useEffect(() => {
-		if (componentMounted.current) {
-			setDataSlider(data?.results);
-			setLoading(isLoading);
-		}
-	}, [data, isLoading]);
 
 	useEffect(() => {
 		if (auto) {
@@ -44,8 +33,8 @@ const HeroSlider = ({ controls, auto, timeOut }) => {
 
 	return (
 		<div className="hero-slider">
-			{!loading ? (
-				dataSlider?.map((item, index) => (
+			{!isLoading ? (
+				data?.results?.map((item, index) => (
 					<HeroSliderItem
 						key={index}
 						item={item}
@@ -55,21 +44,21 @@ const HeroSlider = ({ controls, auto, timeOut }) => {
 			) : (
 				<Loading text="Loading HeroSlider..." styles={{ height: '100%' }} />
 			)}
-			{controls ? (
+			{controls && !isLoading &&
 				<div className="control">
 					<div className="item" onClick={prevSlide}>
 						<i className="bx bx-chevron-left" />
 					</div>
 					<div className="item">
 						<div className="index">
-							{activeSlide + 1}/{dataSlider?.length}
+							{activeSlide + 1}/{data?.results?.length}
 						</div>
 					</div>
 					<div className="item" onClick={nextSlide}>
 						<i className="bx bx-chevron-right" />
 					</div>
 				</div>
-			) : null}
+			}
 		</div>
 	);
 };

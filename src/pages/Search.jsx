@@ -23,13 +23,13 @@ const Search = () => {
         <NotFound text={`No data were obtained with the following search: ${searchTerm}`}/> :
         <Section>
         <SectionTitle>
-          Featured Products
+          Search Result For: {searchTerm}
         </SectionTitle>
         <SectionBody>
           {
             isLoading ? <Loading text='Loading Featured Products...' /> :
             data?.results_size > 0 ?
-            <Products viewType={VIEW_TIPE.PRODUCT_LIST} data={data?.results} pageSize={5} />
+            <Products viewType={VIEW_TIPE.PRODUCT_LIST} data={data?.results} pageSize={20} />
             : <NotFound text='Featured Product Not Found' />
           }
           

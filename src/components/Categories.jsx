@@ -5,7 +5,7 @@ import CategoryContext from '../context/Category/CategoryContext'
 
 import {CategoryCard, Grid, Loading} from './common'
 
-const Categories = ({data}) => {
+const Categories = () => {
 
   const {categories} = useContext(CategoryContext)
 

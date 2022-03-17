@@ -1,5 +1,4 @@
 import React, {useRef, useState, useCallback, useEffect, useContext} from 'react'
-
 import {useSearchParams} from "react-router-dom";
 
 import {Helmet, Products} from '../components'
@@ -17,11 +16,8 @@ import {useProducts} from '../utils/hooks/useProducts'
 const ProductList = () => {
 
   const [params] = useSearchParams()
-
   const {categories} = useContext(CategoryContext)
-
   const {data, isLoading} = useProducts()
-
   const [filters, setFilters] = useState(params.get('category') ? [params.get('category')] : [])
   const [produsctList, setProdusctList] = useState([])
   const [loading, setLoading] = useState(true)
@@ -85,6 +81,12 @@ const ProductList = () => {
                   ))
                 }
             </div>
+            {
+              filters.length > 0 &&
+              <Button size="sm" handler={() => setFilters([])}>
+                Clear Filter
+              </Button>
+            }
           </div>
         </div>
 
@@ -95,7 +97,7 @@ const ProductList = () => {
         <div className='product-list__content'>
           {
             !loading 
-            ? <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} />
+            ? <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} pageSize={12} />
             : <Loading text='Loading Products...' />
           }
         </div>

@@ -15,7 +15,7 @@
             padding: 1rem;
             position: fixed;
             left: 0;
-            top: 115px;
+            top: 120px;
             z-index: 100;
             box-shadow: $box-shadow;
             transform: translateX(-100%);
@@ -23,7 +23,7 @@
         }
 
         @include mobile {
-            top: $header-mobile-height;
+            top: 156px;
         }
 
         &.active {
