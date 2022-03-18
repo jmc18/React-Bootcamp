@@ -1,50 +1,48 @@
-import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../constants';
-import { useLatestAPI } from './useLatestAPI';
+import { useState, useEffect } from 'react'
+import { API_BASE_URL } from '../constants'
+import { useLatestAPI } from './useLatestAPI'
 
 export function useSearchTerm(searchTerm) {
-  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
+  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI()
   const [products, setProducts] = useState(() => ({
     data: {},
-    isLoading: true,
-  }));
+    isLoading: true
+  }))
 
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
-      return () => {};
+      return () => {}
     }
 
-    const controller = new AbortController();
+    const controller = new AbortController()
 
     async function getProductsBySearchTerm(searchTerm) {
       try {
-        setProducts({ data: {}, isLoading: true });
+        setProducts({ data: {}, isLoading: true })
 
         const response = await fetch(
-          `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
-            '[[at(document.type, "product")]]'
-          )}
+          `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent('[[at(document.type, "product")]]')}
           &q=${encodeURIComponent('[[fulltext(document, "' + searchTerm + '")]]')}
-          &lang=en-us&pageSize=20`,
+          &lang=en-us`,
           {
-            signal: controller.signal,
+            signal: controller.signal
           }
-        );
-        const data = await response.json();
+        )
+        const data = await response.json()
 
-        setProducts({ data, isLoading: false });
+        setProducts({ data, isLoading: false })
       } catch (err) {
-        setProducts({ data: {}, isLoading: false });
-        console.error(err);
+        setProducts({ data: {}, isLoading: false })
+        console.error(err)
       }
     }
 
-    getProductsBySearchTerm(searchTerm);
+    getProductsBySearchTerm(searchTerm)
 
     return () => {
-      controller.abort();
-    };
-  }, [apiRef, isApiMetadataLoading, searchTerm]);
+      controller.abort()
+    }
+  }, [apiRef, isApiMetadataLoading, searchTerm])
 
-  return products;
+  return products
 }

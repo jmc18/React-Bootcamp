@@ -1,10 +1,7 @@
-import {Layout} from './components'
+import { Layout } from './components'
 
 function App() {
-
-  return (
-    <Layout />
-  )
+  return <Layout />
 }
 
-export default App;
+export default App

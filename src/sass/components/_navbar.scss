@@ -1,143 +1,143 @@
 .header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: $main-color;
-    padding: 1rem 9%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: $main-color;
+  padding: 1rem 9%;
 
-    @include tablet-up {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+  @include tablet-up {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 2.5rem;
+    color: $txt-white;
+    font-weight: bold;
+    text-transform: capitalize;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    @include tablet {
+      flex-direction: column;
+      width: 205px;
     }
 
-    .logo {
-        font-size: 2.5rem;
-        color: $txt-white;
-        font-weight: bold;
-        text-transform: capitalize;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-
-        @include tablet {
-            flex-direction: column;
-            width: 205px;
-        }
-
-        @include tablet-only {
-            flex-direction: column;
-            width: 140px;
-        }
-
-        @include mobile-only {
-            flex-direction: column;
-            width: 182px;
-            margin-left: -50px;
-        }
-
-        img {
-          width: 50px;
-          height: auto;
-          margin-right: 0.5rem;
-        }
+    @include tablet-only {
+      flex-direction: column;
+      width: 140px;
     }
 
-    .search-form {
-        border-radius: 5rem;
-        height: 3rem;
-        width: 100%;
-        padding: 0 2rem;
-        display: flex;
-        align-items: center;
-        background-color: $txt-white;
-        margin-top: 1.5rem;
-
-        @media screen and (min-width: 992px) {
-            width: 50rem;
-            margin-top: 0;
-        }
-
-        input {
-            width: 100%;
-            padding-right: 1rem;
-            font-size: 1.7rem;
-            text-transform: none;
-            color: $light-color;
-            border: none;
-
-            &:focus {
-                border: 0;
-                outline: 0;
-            }
-        }
-
-        button {
-            font-size: 2rem;
-            color: $light-color;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-
-            &:hover {
-                color: $txt-main-color;
-                border-radius: 99%;
-                background-color: #e2e6eb;
-            }
-
-            @include tablet {
-                color: $txt-main-color;
-                border-radius: 99%;
-                background-color: #e2e6eb;
-            }
-
-            @include mobile {
-                color: $txt-main-color;
-                border-radius: 99%;
-                background-color: #e2e6eb;
-            }
-        }
+    @include mobile-only {
+      flex-direction: column;
+      width: 182px;
+      margin-left: -50px;
     }
 
-    .icons a,
-    .icons div{
-        font-size: 2.5rem;
-        margin-left: 2rem;
-        color:$txt-white;
-        cursor: pointer;
-        position: relative;
-        margin-top: 0.5rem;
+    img {
+      width: 50px;
+      height: auto;
+      margin-right: 0.5rem;
+    }
+  }
 
-        @include mobile-only {
-            position: absolute;
-            top: 10px;
-            right: 3rem;
-        }
+  .search-form {
+    border-radius: 5rem;
+    height: 3rem;
+    width: 100%;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    background-color: $txt-white;
+    margin-top: 1.5rem;
 
-        @include desktop-up {
-            margin-top: 0;
-        }
+    @media screen and (min-width: 992px) {
+      width: 50rem;
+      margin-top: 0;
+    }
 
-        &:hover{
-            color: $gold-color;
-        }
-        
-        span {
-            background-color: $red-color;
-            color: $txt-white;
-            border-radius: 99px;
-            font-size: 1rem;
-            width: 1.5rem;
-            height: 1.5rem;
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            top: -8px;
-            right: -11px;
-        }
+    input {
+      width: 100%;
+      padding-right: 1rem;
+      font-size: 1.7rem;
+      text-transform: none;
+      color: $light-color;
+      border: none;
+
+      &:focus {
+        border: 0;
+        outline: 0;
+      }
+    }
+
+    button {
+      font-size: 2rem;
+      color: $light-color;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+
+      &:hover {
+        color: $txt-main-color;
+        border-radius: 99%;
+        background-color: #e2e6eb;
+      }
+
+      @include tablet {
+        color: $txt-main-color;
+        border-radius: 99%;
+        background-color: #e2e6eb;
+      }
+
+      @include mobile {
+        color: $txt-main-color;
+        border-radius: 99%;
+        background-color: #e2e6eb;
+      }
+    }
+  }
+
+  .icons a,
+  .icons div {
+    font-size: 2.5rem;
+    margin-left: 2rem;
+    color: $txt-white;
+    cursor: pointer;
+    position: relative;
+    margin-top: 0.5rem;
+
+    @include mobile-only {
+      position: absolute;
+      top: 10px;
+      right: 3rem;
+    }
+
+    @include desktop-up {
+      margin-top: 0;
+    }
+
+    &:hover {
+      color: $gold-color;
+    }
+
+    span {
+      background-color: $red-color;
+      color: $txt-white;
+      border-radius: 99px;
+      font-size: 1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: -8px;
+      right: -11px;
+    }
   }
 }

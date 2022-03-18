@@ -1,48 +1,48 @@
-import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../constants';
-import { useLatestAPI } from './useLatestAPI';
+import { useState, useEffect } from 'react'
+import { API_BASE_URL } from '../constants'
+import { useLatestAPI } from './useLatestAPI'
 
 export function useProductCategories() {
-  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
+  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI()
   const [productCategories, setProductCategories] = useState(() => ({
     data: {},
-    isLoading: true,
-  }));
+    isLoading: true
+  }))
 
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
-      return () => {};
+      return () => {}
     }
 
-    const controller = new AbortController();
+    const controller = new AbortController()
 
     async function getProductCategories() {
       try {
-        setProductCategories({ data: {}, isLoading: true });
+        setProductCategories({ data: {}, isLoading: true })
 
         const response = await fetch(
           `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
             '[[at(document.type, "category")]]'
           )}&lang=en-us&pageSize=30`,
           {
-            signal: controller.signal,
+            signal: controller.signal
           }
-        );
-        const data = await response.json();
+        )
+        const data = await response.json()
 
-        setProductCategories({ data, isLoading: false });
+        setProductCategories({ data, isLoading: false })
       } catch (err) {
-        setProductCategories({ data: {}, isLoading: false });
-        console.error(err);
+        setProductCategories({ data: {}, isLoading: false })
+        console.error(err)
       }
     }
 
-    getProductCategories();
+    getProductCategories()
 
     return () => {
-      controller.abort();
-    };
-  }, [apiRef, isApiMetadataLoading]);
+      controller.abort()
+    }
+  }, [apiRef, isApiMetadataLoading])
 
-  return productCategories;
+  return productCategories
 }

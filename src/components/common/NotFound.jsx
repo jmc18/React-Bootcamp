@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const NotFound = ({text}) => {
+const NotFound = ({ text }) => {
   return (
-    <section className='not-found-section'>
-        <span>{text}</span>
+    <section className="not-found-section">
+      <span>{text}</span>
     </section>
   )
 }
 
 NotFound.propTypes = {
-    text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
 }
 
 export default NotFound

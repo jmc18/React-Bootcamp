@@ -1,48 +1,46 @@
-import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../constants';
-import { useLatestAPI } from './useLatestAPI';
+import { useState, useEffect } from 'react'
+import { API_BASE_URL } from '../constants'
+import { useLatestAPI } from './useLatestAPI'
 
 export function useFeaturedBanners() {
-  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
+  const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI()
   const [featuredBanners, setFeaturedBanners] = useState(() => ({
     data: {},
-    isLoading: true,
-  }));
+    isLoading: true
+  }))
 
   useEffect(() => {
     if (!apiRef || isApiMetadataLoading) {
-      return () => {};
+      return () => {}
     }
 
-    const controller = new AbortController();
+    const controller = new AbortController()
 
     async function getFeaturedBanners() {
       try {
-        setFeaturedBanners({ data: {}, isLoading: true });
+        setFeaturedBanners({ data: {}, isLoading: true })
 
         const response = await fetch(
-          `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
-            '[[at(document.type, "banner")]]'
-          )}&lang=en-us&pageSize=5`,
+          `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent('[[at(document.type, "banner")]]')}&lang=en-us&pageSize=5`,
           {
-            signal: controller.signal,
+            signal: controller.signal
           }
-        );
-        const data = await response.json();
+        )
+        const data = await response.json()
 
-        setFeaturedBanners({ data, isLoading: false });
+        setFeaturedBanners({ data, isLoading: false })
       } catch (err) {
-        setFeaturedBanners({ data: {}, isLoading: false });
-        console.error(err);
+        setFeaturedBanners({ data: {}, isLoading: false })
+        console.error(err)
       }
     }
 
-    getFeaturedBanners();
+    getFeaturedBanners()
 
     return () => {
-      controller.abort();
-    };
-  }, [apiRef, isApiMetadataLoading]);
+      controller.abort()
+    }
+  }, [apiRef, isApiMetadataLoading])
 
-  return featuredBanners;
+  return featuredBanners
 }
