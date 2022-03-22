@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useProduct } from '../utils/hooks/useProduct'
+import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
 //Components
 import { Button, Loading, NotFound, ProductDetailInfo, ProductDescription, ProductQuantityControl } from '../components/common'
@@ -11,7 +11,7 @@ import numberWithCommas from '../utils/numberWithCommas.js'
 
 const Product = () => {
   const { productId } = useParams()
-  const { data, isLoading } = useProduct(productId)
+  const { data, isLoading } = useGeneralRequest(`&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22${productId}%22%29+%5D%5D`)
 
   const [previewImg, setPreviewImg] = useState('')
   const [productNotFound, setProductNotFound] = useState(false)

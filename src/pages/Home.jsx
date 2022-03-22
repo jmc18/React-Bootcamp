@@ -8,10 +8,13 @@ import Section, { SectionBody, SectionTitle } from '../components/common/Section
 import { VIEW_TIPE } from '../utils/constants'
 
 //Hocks
-import { useFeaturedProducts } from '../utils/hooks/useFeaturedProducts'
+import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
 const Home = () => {
-  const { data, isLoading } = useFeaturedProducts()
+  const requestPart = `q=${encodeURIComponent('[[at(document.type, "product")]]')}&q=${encodeURIComponent(
+    '[[at(document.tags, ["Featured"])]]'
+  )}&lang=en-us&pageSize=16`
+  const { data, isLoading } = useGeneralRequest(requestPart)
 
   return (
     <Helmet title="Home Page">

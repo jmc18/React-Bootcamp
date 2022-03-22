@@ -10,12 +10,12 @@ import { VIEW_TIPE } from '../utils/constants'
 import CategoryContext from '../context/Category/CategoryContext'
 
 //Hook
-import { useProducts } from '../utils/hooks/useProducts'
+import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
 const ProductList = () => {
   const [params] = useSearchParams()
   const { categories } = useContext(CategoryContext)
-  const { data, isLoading } = useProducts()
+  const { data, isLoading } = useGeneralRequest(`q=${encodeURIComponent('[[at(document.type, "product")]]')}&lang=en-us`)
   const [filters, setFilters] = useState(params.get('category') ? [params.get('category')] : [])
   const [produsctList, setProdusctList] = useState([])
   const [loading, setLoading] = useState(true)

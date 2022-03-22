@@ -1,36 +1,44 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { Products } from '../components'
-import { NotFound, Loading } from '../components/common'
+import { NotFound, Loading, Pagination } from '../components/common'
 import Section, { SectionBody, SectionTitle } from '../components/common/Section'
 
 import { VIEW_TIPE } from '../utils/constants'
 
-//Hook
-import { useSearchTerm } from '../utils/hooks/useSearchTerm'
+//SearchContext
+import SearchContext from '../context/Search/SearchContext'
 
 const Search = () => {
+  const searchContext = useContext(SearchContext)
   const [params] = useSearchParams()
   const searchTerm = params.get('q')
-  const { data, isLoading } = useSearchTerm(searchTerm)
 
-  if (isLoading) {
+  const handlerPagination = (action) => {
+    searchContext.triggerPagination(action)
+  }
+
+  useEffect(() => {
+    searchContext.getSearchResultByTerm(searchTerm)
+  }, [searchTerm])
+
+  if (searchContext.state.isLoading) {
     return <Loading text="Loading search..." />
   } else {
-    console.log(data)
-    return data.results_size === 0 ? (
+    return !searchContext.state.results ? (
       <NotFound text={`No data were obtained with the following search: ${searchTerm}`} />
     ) : (
       <Section>
         <SectionTitle>Search Result For: {searchTerm}</SectionTitle>
         <SectionBody>
-          {isLoading ? (
-            <Loading text="Loading Featured Products..." />
-          ) : data?.results_size > 0 ? (
-            <Products viewType={VIEW_TIPE.PRODUCT_LIST} data={data?.results} pageSize={10} />
-          ) : (
-            <NotFound text="Featured Product Not Found" />
+          <Products viewType={VIEW_TIPE.SEARCH_LIST} data={searchContext.state.results} pageSize={20} />
+          {searchContext.state.totalPages > 1 && (
+            <Pagination
+              activePagination={handlerPagination}
+              totalPages={searchContext.state.totalPages}
+              currentPage={searchContext.state.currentPage}
+            />
           )}
         </SectionBody>
       </Section>

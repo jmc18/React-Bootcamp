@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { API_BASE_URL } from '../constants'
 import { useLatestAPI } from './useLatestAPI'
 
-export function useProducts() {
+export function useGeneralRequest(request) {
   const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI()
-  const [products, setProducts] = useState(() => ({
+  const [response, setResponse] = useState(() => ({
     data: {},
     isLoading: true
   }))
@@ -15,32 +15,25 @@ export function useProducts() {
     }
 
     const controller = new AbortController()
-
-    async function getProducts() {
+    async function getRequest(request) {
+      setResponse({ data: {}, isLoading: true })
       try {
-        setProducts({ data: {}, isLoading: true })
-
-        const response = await fetch(
-          `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent('[[at(document.type, "product")]]')}&lang=en-us`,
-          {
-            signal: controller.signal
-          }
-        )
+        const response = await fetch(`${API_BASE_URL}/documents/search?ref=${apiRef}&${request}`, {
+          signal: controller.signal
+        })
         const data = await response.json()
-
-        setProducts({ data, isLoading: false })
+        setResponse({ data, isLoading: false })
       } catch (err) {
-        setProducts({ data: {}, isLoading: false })
         console.error(err)
       }
     }
 
-    getProducts()
+    getRequest(request)
 
     return () => {
       controller.abort()
     }
   }, [apiRef, isApiMetadataLoading])
 
-  return products
+  return response
 }

@@ -4,10 +4,12 @@ import PropTypes from 'prop-types'
 import { Button, Loading } from './common/index'
 
 //Hooks
-import { useFeaturedBanners } from '../utils/hooks/useFeaturedBanners'
+import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
 const HeroSlider = ({ controls, auto, timeOut }) => {
-  const { data, isLoading } = useFeaturedBanners()
+  const requestPart = `q=${encodeURIComponent('[[at(document.type, "banner")]]')}&lang=en-us&pageSize=5`
+
+  const { data, isLoading } = useGeneralRequest(requestPart)
   const [activeSlide, setActiveSlide] = useState(0)
 
   const nextSlide = useCallback(() => {
