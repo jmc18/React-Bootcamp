@@ -1,26 +1,26 @@
 .loading-section {
-    height: calc(77.6vh);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  height: calc(77.6vh);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
-    img {
-        margin-bottom: 1rem;
-        animation: rotation 8s infinite linear;
-    }
+  img {
+    margin-bottom: 1rem;
+    animation: rotation 8s infinite linear;
+  }
 
-    span {
-        font-size: 3rem;
-        font-weight: bold;
-    }
+  span {
+    font-size: 3rem;
+    font-weight: bold;
+  }
 }
 
 @keyframes rotation {
-    from {
-        transform: rotateY(0deg);
-    }
-    to {
-        transform: rotateY(359deg);
-    }
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(359deg);
+  }
 }

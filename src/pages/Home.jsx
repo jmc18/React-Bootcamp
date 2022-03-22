@@ -1,65 +1,56 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
-import {HeroSlider, Helmet, Categories, Products} from '../components'
-import {Button} from '../components/common'
-import Section, {SectionBody, SectionTitle} from '../components/common/Section'
+import { HeroSlider, Helmet, Categories, Products } from '../components'
+import { Button, Loading, NotFound } from '../components/common'
+import Section, { SectionBody, SectionTitle } from '../components/common/Section'
 
-import {LAYOUT_VIEW, VIEW_TIPE} from '../utils/constants'
+import { VIEW_TIPE } from '../utils/constants'
 
-//Mock data
-import featuredBannersData from '../utils/mocks/en-us/featured-banners.json'
-import productCategoriesData from '../utils/mocks/en-us/product-categories.json'
-import featuredProductsData from '../utils/mocks/en-us/featured-products.json'
+//Hocks
+import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
-const Home = ({navigate}) => {
-
-  const handleNavigate = (page) => {
-    navigate(page)
-  }
+const Home = () => {
+  const requestPart = `q=${encodeURIComponent('[[at(document.type, "product")]]')}&q=${encodeURIComponent(
+    '[[at(document.tags, ["Featured"])]]'
+  )}&lang=en-us&pageSize=16`
+  const { data, isLoading } = useGeneralRequest(requestPart)
 
   return (
     <Helmet title="Home Page">
-      <HeroSlider 
-        controls={true} 
-        auto={true} 
-        timeOut={5000} 
-        data={featuredBannersData} />
+      <HeroSlider controls={true} auto={true} timeOut={5000} />
 
-    {/* Category section */}
+      {/* Category section */}
       <Section>
-        <SectionTitle>
-          Categories
-        </SectionTitle>
+        <SectionTitle>Categories</SectionTitle>
         <SectionBody>
-          <Categories data={productCategoriesData} />
+          <Categories />
         </SectionBody>
       </Section>
-    {/* End category section */}
+      {/* End category section */}
 
-    {/* Articles section */}
+      {/* Articles section */}
       <Section>
-        <SectionTitle>
-          Featured Products
-        </SectionTitle>
+        <SectionTitle>Featured Products</SectionTitle>
         <SectionBody>
-          <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={featuredProductsData.results} />
+          {isLoading ? (
+            <Loading text="Loading Featured Products..." />
+          ) : data?.results_size > 0 ? (
+            <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={data?.results} pageSize={1} />
+          ) : (
+            <NotFound text="Featured Product Not Found" />
+          )}
         </SectionBody>
       </Section>
-      <Button 
-        animate={false} 
-        size='block'
-        handler={() => handleNavigate(LAYOUT_VIEW.PRODUCTS)}
-      >
-        <i className='bx bx-store'/> View all products
-      </Button>
-    {/* End Articles section*/}
+      <Link to="/products">
+        <Button animate={false} size="block">
+          <i className="bx bx-store" /> View all products
+        </Button>
+      </Link>
+
+      {/* End Articles section*/}
     </Helmet>
   )
-}
-
-Home.propTypes = {
-  navigate: PropTypes.func,
 }
 
 export default Home

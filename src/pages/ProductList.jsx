@@ -1,55 +1,46 @@
-import React, {useRef, useState, useCallback, useEffect} from 'react'
+import React, { useRef, useState, useCallback, useEffect, useContext } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
-import {Helmet, Products} from '../components'
-import {Button, CheckBox, Loading} from '../components/common'
+import { Helmet, Products } from '../components'
+import { Button, CheckBox, Loading } from '../components/common'
 
-import {VIEW_TIPE} from '../utils/constants'
+import { VIEW_TIPE } from '../utils/constants'
 
-import productCategories from '../utils/mocks/en-us/product-categories.json'
-import producst from '../utils/mocks/en-us/products.json'
+//CategoryContext
+import CategoryContext from '../context/Category/CategoryContext'
+
+//Hook
+import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
 const ProductList = () => {
+  const [params] = useSearchParams()
+  const { categories } = useContext(CategoryContext)
+  const { data, isLoading } = useGeneralRequest(`q=${encodeURIComponent('[[at(document.type, "product")]]')}&lang=en-us`)
+  const [filters, setFilters] = useState(params.get('category') ? [params.get('category')] : [])
+  const [produsctList, setProdusctList] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const [filters, setFilters] = useState([])
-  const [produsctList, setProdusctList] = useState(producst.results)
-  const [loading, setLoading] = useState(false)
-
-  const componentMounted = useRef(true); // (3) component is mounted
-
-  const filterSelect = (checked, item) => {
-    if(checked){
-      setFilters([...filters, item.id])
+  const filterSelect = (checked, id) => {
+    if (checked) {
+      setFilters([...filters, id])
     } else {
-      const newFilter = filters.filter(x => x !== item.id)
+      const newFilter = filters.filter((x) => x !== id)
       setFilters(newFilter)
     }
   }
 
-  const updateProductList = useCallback(
-    () => {
-      let productsTemp = producst.results
-      if(filters.length > 0){
-        productsTemp = productsTemp.filter(x => filters.includes(x?.data?.category?.id))
-      }
-      setProdusctList(productsTemp)
-    },
-    [filters]
-  )
+  const updateProductList = useCallback(() => {
+    let productsTemp = data?.results
+    if (filters.length > 0) {
+      productsTemp = productsTemp?.filter((x) => filters.includes(x?.data?.category?.id))
+    }
+    setProdusctList(productsTemp)
+  }, [filters, data])
 
   useEffect(() => {
-    
-    setTimeout(
-      () => {
-        if (componentMounted.current){
-          setLoading(true)
-        }
-      }, 2000
-    )
-
-    return () => { // This code runs when component is unmounted
-      componentMounted.current = false; // (4) set it to false when we leave the page
-    }
-  }, [])
+    setProdusctList(data.results)
+    setLoading(isLoading)
+  }, [data, isLoading])
 
   useEffect(() => {
     updateProductList()
@@ -59,44 +50,47 @@ const ProductList = () => {
   const showFilters = () => filterRef.current.classList.toggle('active')
 
   return (
-    <Helmet title='My E-ccomerce Products'>
-      <div className='product-list'>
-        <div className='product-list__filter' ref={filterRef}>
-          <div className='product-list__filter__close' onClick={() => showFilters()}>
-            <i className='bx bx-message-square-x' />
+    <Helmet title="My E-ccomerce Products">
+      <div className="product-list">
+        <div className="product-list__filter" ref={filterRef}>
+          <div className="product-list__filter__close" onClick={() => showFilters()}>
+            <i className="bx bx-message-square-x" />
           </div>
-          <div className='product-list__filter__widget'>
-            <div className='product-list__filter__widget__title'>
-              Categories
+          <div className="product-list__filter__widget">
+            <div className="product-list__filter__widget__title">Categories</div>
+            <div className="product-list__filter__widget__content">
+              {categories &&
+                categories?.map((item) => (
+                  <div key={item.id} className="product-list__filter__widget__content__item">
+                    <CheckBox
+                      label={item?.data?.name}
+                      onChange={(input) => filterSelect(input.checked, item.id)}
+                      checked={filters.includes(item.id)}
+                    />
+                  </div>
+                ))}
             </div>
-            <div className='product-list__filter__widget__content'>
-                {
-                  productCategories && 
-                  productCategories?.results?.map((item) => (
-                    <div key={item.id} className="product-list__filter__widget__content__item">
-                      <CheckBox
-                          label={item?.data?.name}
-                          onChange={(input) => filterSelect(input.checked, item)}
-                          checked={filters.includes(item.id)}
-                      />
-                    </div>
-                  ))
-                }
-            </div>
+            {filters.length > 0 && (
+              <Button size="sm" handler={() => setFilters([])}>
+                Clear Filter
+              </Button>
+            )}
           </div>
         </div>
 
         <div className="product-list__filter__toggle">
-            <Button size="sm" handler={() => showFilters()}>Show Filters</Button>
+          <Button size="sm" handler={() => showFilters()}>
+            Show Filters
+          </Button>
         </div>
 
-        <div className='product-list__content'>
-          {
-            loading ? <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} />
-                    : <Loading text='Loading Products...' />
-          }
+        <div className="product-list__content">
+          {!loading ? (
+            <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} pageSize={12} />
+          ) : (
+            <Loading text="Loading Products..." />
+          )}
         </div>
-
       </div>
     </Helmet>
   )

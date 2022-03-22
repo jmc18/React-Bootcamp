@@ -1,14 +1,14 @@
 .section {
-    margin-bottom: 80px;
+  margin-bottom: 80px;
 
-    & > * ~ * {
-        margin-top: 50px;
-    }
+  & > * ~ * {
+    margin-top: 50px;
+  }
 
-    .title {
-        font-size: 3rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        text-align: center;
-    }
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+  }
 }

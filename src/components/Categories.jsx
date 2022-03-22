@@ -1,29 +1,30 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 
-import {CategoryCard, Grid} from './common'
+//CategoryContext
+import CategoryContext from '../context/Category/CategoryContext'
 
-const Categories = ({data}) => {
+import { CategoryCard, Grid, Loading } from './common'
 
-  return (
-    <section className='categories'>
+const Categories = () => {
+  const { categories } = useContext(CategoryContext)
+
+  return !categories ? (
+    <Loading text="Loading Categories..." styles={{ height: '100%' }} />
+  ) : (
+    <section className="categories">
       <Grid col={5} mdCol={2} smCol={1} gap={20}>
-        {
-            data?.results?.map((item, index) => 
-              <CategoryCard 
-                  key={index} 
-                  categoryName={item.data.name} 
-                  imageUrl={item.data.main_image.url}
-                  altImage={item.data.main_image.alt} />
-            )
-        }
-        </Grid>
+        {categories.map((item) => (
+          <CategoryCard
+            key={item.id}
+            categoryName={item.data.name}
+            imageUrl={item.data.main_image.url}
+            altImage={item.data.main_image.alt}
+            categoryId={item.id}
+          />
+        ))}
+      </Grid>
     </section>
   )
-}
-
-Categories.propTypes = {
-  data: PropTypes.object.isRequired,
 }
 
 export default Categories
