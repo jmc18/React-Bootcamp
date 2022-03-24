@@ -15,6 +15,11 @@
     height: 60vh;
   }
 
+  @include mobile-xs {
+    margin-top: calc(#{75px} * -1);
+    height: 75vh;
+  }
+
   .slide-item {
     @include flex(center, space-between);
     opacity: 0;

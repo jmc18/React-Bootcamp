@@ -7,7 +7,7 @@ import { ProductCard, Grid, NotFound, Pagination } from './common'
 
 const Products = ({ viewType, data, pageSize = 1 }) => {
   const [page, setPage] = useState(0)
-  const [totalPages] = useState(pageSize === 1 ? 1 : Math.ceil(data?.length / pageSize))
+  const [totalPages] = useState(pageSize === 1 || data?.length <= pageSize ? 1 : Math.ceil(data?.length / pageSize))
   const [productsPage, setProductsPage] = useState([])
 
   const handlerPagination = (action) => {
