@@ -18,7 +18,6 @@ const CartState = ({ children }) => {
   }, [state.items])
 
   const addProduct = (product) => {
-    console.log([...state.items, product])
     dispatch({
       type: CartActions.ADD_PRODUCT,
       payload: sorting([...state.items, product])
@@ -44,7 +43,7 @@ const CartState = ({ children }) => {
   }
 
   const sorting = (items) => {
-    return items?.sort((a, b) => a.productName > b.productName ? 1 :b.productName > a.productName? -1 : 0)
+    return items?.sort((a, b) => (a.productName > b.productName ? 1 : b.productName > a.productName ? -1 : 0))
   }
 
   const cartContextValue = {

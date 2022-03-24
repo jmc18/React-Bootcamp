@@ -8,8 +8,9 @@ import CartContext from '../../context/Cart/CartContext'
 
 //utils
 import numberWithCommas from '../../utils/numberWithCommas'
+import { CHECKOUT } from '../../utils/constants'
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, viewType }) => {
   const cartContext = useContext(CartContext)
   const itemRef = useRef(null)
 
@@ -49,18 +50,25 @@ const CartItem = ({ item }) => {
           </p>
         </div>
         <div className="cart__item__info__quantity">
-          <ProductQuantityControl quantity={item.quantity} updateQuantity={updateQuantity} />
+          {viewType !== CHECKOUT ? (
+            <ProductQuantityControl quantity={item.quantity} updateQuantity={updateQuantity} />
+          ) : (
+            <h3>Quantity: {item.quantity}</h3>
+          )}
         </div>
-        <div className="cart__item__info__remove">
-          <i className="bx bxs-trash" onClick={removeCartItem} />
-        </div>
+        {viewType !== CHECKOUT && (
+          <div className="cart__item__info__remove">
+            <i className="bx bxs-trash" onClick={removeCartItem} />
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
 CartItem.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  viewType: PropTypes.string
 }
 
 export default CartItem

@@ -5,8 +5,9 @@ const Button = (props) => {
   const bg = props.backgroundColor ? `bg-${props.backgroundColor}` : 'bg-main'
   const size = props.size ? `btn-${props.size}` : ''
   const animate = props.animate ? 'btn-animate' : ''
+  const buttonType = props.buttonType ? props.buttonType : 'button'
   return (
-    <button className={`btn ${bg} ${size} ${animate}`} onClick={props.handler ? () => props.handler() : null}>
+    <button type={buttonType} className={`btn ${bg} ${size} ${animate}`} onClick={props.handler ? () => props.handler() : null}>
       <span className="txt">{props.children}</span>
       {props.icon ? (
         <span className="icon">
@@ -22,7 +23,8 @@ Button.propTypes = {
   size: PropTypes.string,
   icon: PropTypes.string,
   animate: PropTypes.bool,
-  handler: PropTypes.func
+  handler: PropTypes.func,
+  buttonType: PropTypes.string
 }
 
 export default Button

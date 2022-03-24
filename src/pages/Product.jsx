@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
@@ -16,6 +16,7 @@ const Product = () => {
   const cartContext = useContext(CartContext)
   const { productId } = useParams()
   const { data, isLoading } = useGeneralRequest(`&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22${productId}%22%29+%5D%5D`)
+  const navigate = useNavigate()
 
   const [previewImg, setPreviewImg] = useState('')
   const [productNotFound, setProductNotFound] = useState(false)
@@ -45,6 +46,10 @@ const Product = () => {
       stock: productInfo?.data?.stock
     }
     cartContext.addProduct(productData)
+  }
+
+  const handleNavigate = (url) => {
+    navigate(url)
   }
 
   if (isLoading) {
@@ -77,16 +82,20 @@ const Product = () => {
         <ProductDetailInfo title="Tags" info={productInfo?.tags?.join(', ')} />
 
         {cartContext.state.items.filter((e) => e.productId === productId).length === 0 && (
-          <>
-            <ProductQuantityControl title="Quantity" quantity={quantity} updateQuantity={updateQuantity} />
-
-            <div className="product-details__info__item">
-              <Button icon="bx bx-cart" animate={true} handler={() => addProductToCart()}>
-                Add To Car
-              </Button>
-            </div>
-          </>
+          <ProductQuantityControl title="Quantity" quantity={quantity} updateQuantity={updateQuantity} />
         )}
+
+        <div className="product-details__info__item">
+          <Button
+            icon="bx bx-cart"
+            animate={true}
+            handler={() =>
+              cartContext.state.items.filter((e) => e.productId === productId).length === 0 ? addProductToCart() : handleNavigate('/cart')
+            }
+          >
+            Add To Car
+          </Button>
+        </div>
 
         <div className="product-details__info__item">
           <div className="product-details__info__item__title">Specs</div>
