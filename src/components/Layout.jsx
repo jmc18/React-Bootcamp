@@ -7,7 +7,7 @@ import { Footer, Navbar } from './index'
 //Context
 import CategoryState from '../context/Category/CategoryState'
 import SearchState from '../context/Search/SearchState'
-import CartContext from '../context/Cart/CartContext'
+import CartState from '../context/Cart/CartState'
 
 //Routes
 import AppRoutes from '../routes/AppRoutes'
@@ -16,7 +16,7 @@ const Layout = () => {
   return (
     <BrowserRouter>
       <div className="page-container">
-        <CartContext>
+        <CartState>
           <CategoryState>
             <SearchState>
               <Navbar />
@@ -28,7 +28,7 @@ const Layout = () => {
               <Footer />
             </SearchState>
           </CategoryState>
-        </CartContext>
+        </CartState>
       </div>
     </BrowserRouter>
   )

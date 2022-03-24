@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+
+import CartContext from '../context/Cart/CartContext'
 
 import logo from '../assets/images/logo.webp'
 
 const Navbar = () => {
+  const cartContext = useContext(CartContext)
   const navigate = useNavigate()
   return (
     <header className="header">
@@ -36,10 +39,12 @@ const Navbar = () => {
       </Formik>
 
       <div className="icons">
-        <a href="/">
+        <Link to="/cart" title="Go To Shopping Cart">
           <i className="bx bx-shopping-bag" />
-          <span>0</span>
-        </a>
+          {cartContext.state.items.length > 0 && (
+            <span>{cartContext.state.items.length >= 10 ? '+9' : cartContext.state.items.length} </span>
+          )}
+        </Link>
       </div>
     </header>
   )

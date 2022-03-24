@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
+
+//cart Context
+import CartContext from '../context/Cart/CartContext'
 
 //Components
 import { Button, Loading, NotFound, ProductDetailInfo, ProductDescription, ProductQuantityControl } from '../components/common'
@@ -10,6 +13,7 @@ import { Button, Loading, NotFound, ProductDetailInfo, ProductDescription, Produ
 import numberWithCommas from '../utils/numberWithCommas.js'
 
 const Product = () => {
+  const cartContext = useContext(CartContext)
   const { productId } = useParams()
   const { data, isLoading } = useGeneralRequest(`&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22${productId}%22%29+%5D%5D`)
 
@@ -29,6 +33,18 @@ const Product = () => {
   const updateQuantity = (type) => {
     const stock = productInfo?.data?.stock
     type === 'plus' ? setQuantity(quantity + 1 <= stock ? quantity + 1 : quantity) : setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
+  }
+
+  const addProductToCart = () => {
+    const productData = {
+      productId: productId,
+      mainImage: productInfo?.data?.mainimage?.url,
+      productName: productInfo?.data?.name,
+      unitPrice: productInfo?.data?.price,
+      quantity: quantity,
+      stock: productInfo?.data?.stock
+    }
+    cartContext.addProduct(productData)
   }
 
   if (isLoading) {
@@ -60,11 +76,17 @@ const Product = () => {
         <ProductDetailInfo title="Category" info={productInfo?.data?.category?.slug} />
         <ProductDetailInfo title="Tags" info={productInfo?.tags?.join(', ')} />
 
-        <ProductQuantityControl title="Quantity" quantity={quantity} updateQuantity={updateQuantity} />
+        {cartContext.state.items.filter((e) => e.productId === productId).length === 0 && (
+          <>
+            <ProductQuantityControl title="Quantity" quantity={quantity} updateQuantity={updateQuantity} />
 
-        <div className="product-details__info__item">
-          <Button>Add To Car</Button>
-        </div>
+            <div className="product-details__info__item">
+              <Button icon="bx bx-cart" animate={true} handler={() => addProductToCart()}>
+                Add To Car
+              </Button>
+            </div>
+          </>
+        )}
 
         <div className="product-details__info__item">
           <div className="product-details__info__item__title">Specs</div>

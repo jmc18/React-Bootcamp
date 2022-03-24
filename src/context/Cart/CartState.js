@@ -7,16 +7,20 @@ import * as CartActions from './CartActions'
 const CartState = ({ children }) => {
   const componentMounted = useRef(true)
 
+  const items = localStorage.getItem('cartItems') !== null ? JSON.parse(localStorage.getItem('cartItems')) : []
   const cartInitialState = {
-    items: null,
-    isLoading: false
+    items: items
   }
 
   const [state, dispatch] = useReducer(CartReducer, cartInitialState)
 
-  const initCart = () => {}
-
-  const addProduct = (product) => {}
+  const addProduct = (product) => {
+    dispatch({
+      type: CartActions.ADD_PRODUCT,
+      payload: state.items.push(product)
+    })
+    localStorage.setItem('cartItems', JSON.stringify(state.items))
+  }
 
   const updateQuantityProduct = (quantity, productId) => {}
 
