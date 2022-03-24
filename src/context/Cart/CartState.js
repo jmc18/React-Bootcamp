@@ -22,9 +22,26 @@ const CartState = ({ children }) => {
     localStorage.setItem('cartItems', JSON.stringify(state.items))
   }
 
-  const updateQuantityProduct = (quantity, productId) => {}
+  const updateQuantityProduct = (quantity, productId) => {
+    const product = state.items.find((e) => e.productId === productId)
+    if (product) {
+      const products = state.items.filter((e) => e.productId !== product.productId)
+      products.push({ ...product, quantity })
+      dispatch({
+        type: CartActions.UPDATE_PRODUCT,
+        payload: products
+      })
+      localStorage.setItem('cartItems', JSON.stringify(state.items))
+    }
+  }
 
-  const removeProduct = (productId) => {}
+  const removeProduct = (productId) => {
+    dispatch({
+      type: CartActions.REMOVE_PRODUCT,
+      payload: state.items.filter((e) => e.productId !== productId)
+    })
+    localStorage.setItem('cartItems', JSON.stringify(state.items))
+  }
 
   const cartContextValue = {
     state,

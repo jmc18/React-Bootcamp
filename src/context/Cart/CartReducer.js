@@ -9,6 +9,16 @@ const CartReducer = (state, action) => {
         ...state,
         payload
       }
+    case CartActions.UPDATE_PRODUCT:
+      return {
+        ...state,
+        items: payload
+      }
+    case CartActions.REMOVE_PRODUCT:
+      return {
+        ...state,
+        items: payload
+      }
     default:
       return state
   }

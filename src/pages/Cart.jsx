@@ -24,9 +24,11 @@ const Cart = () => {
 
         {cartContext.state.items.length > 0 ? (
           <div className="cart__list">
-            {cartContext.state.items.map((item) => (
-              <CartItem item={item} key={item.productId} />
-            ))}
+            {cartContext.state.items
+              .sort((s) => s.productName)
+              .map((item) => (
+                <CartItem item={item} key={item.productId} />
+              ))}
           </div>
         ) : (
           <NotFound text="You have no products added to your shopping cart" />
