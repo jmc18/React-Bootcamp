@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 //Context
 import CartContext from '../context/Cart/CartContext'
@@ -6,8 +7,21 @@ import CartContext from '../context/Cart/CartContext'
 import { Helmet } from '../components'
 import { Button, CartItem, NotFound } from '../components/common'
 
+import numberWithCommas from '../utils/numberWithCommas'
+
 const Cart = () => {
   const cartContext = useContext(CartContext)
+
+  const totalCalculation = () => {
+    let total = 0
+    cartContext.state.items.forEach(item => {
+      total += item.unitPrice * item.quantity
+    })
+    return numberWithCommas(total)
+  }
+
+  const total = useMemo(() => totalCalculation(), [cartContext.state])
+
   return (
     <Helmet title="Shopping Cart">
       <div className="cart">
@@ -16,16 +30,19 @@ const Cart = () => {
             <p>Products Added To Your List</p>
           </div>
           <div className="cart__info__total">
+            <Link to='/checkout'>
             <Button animate={false} size="block">
-              Total: $
+              Total: ${total}
             </Button>
+            </Link>
           </div>
         </div>
 
         {cartContext.state.items.length > 0 ? (
           <div className="cart__list">
+            {console.log(cartContext.state.items
+              .sort((s) => s.productName))}
             {cartContext.state.items
-              .sort((s) => s.productName)
               .map((item) => (
                 <CartItem item={item} key={item.productId} />
               ))}

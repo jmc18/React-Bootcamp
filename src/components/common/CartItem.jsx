@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useMemo, useState } from 'react'
+import React, { useRef, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { ProductQuantityControl } from './'
@@ -11,22 +11,21 @@ import numberWithCommas from '../../utils/numberWithCommas'
 
 const CartItem = ({ item }) => {
   const cartContext = useContext(CartContext)
-  const [quantity, setQuantity] = useState(item.quantity)
   const itemRef = useRef(null)
 
-  const expensiveCalculation = () => {
-    const subtotal = item.unitPrice * quantity
+  const subtotalCalculation = () => {
+    const subtotal = item.unitPrice * item.quantity
     return numberWithCommas(subtotal)
   }
 
-  const subtotal = useMemo(() => expensiveCalculation(), [quantity])
+  const subtotal = useMemo(() => subtotalCalculation(), [item.quantity])
 
   const updateQuantity = (type) => {
     const stock = item.stock
+    const quantity = item.quantity
     const quantityTemp = type === 'plus' ? (quantity + 1 <= stock ? quantity + 1 : quantity) : quantity - 1 < 1 ? quantity : quantity - 1
-    setQuantity(quantityTemp)
-    if (quantity !== item.quantity) {
-      cartContext.updateQuantityProduct(quantity, item.productId)
+    if (quantityTemp !== item.quantity) {
+      cartContext.updateQuantityProduct(quantityTemp, item.productId)
     }
   }
 
@@ -50,7 +49,7 @@ const CartItem = ({ item }) => {
           </p>
         </div>
         <div className="cart__item__info__quantity">
-          <ProductQuantityControl quantity={quantity} updateQuantity={updateQuantity} />
+          <ProductQuantityControl quantity={item.quantity} updateQuantity={updateQuantity} />
         </div>
         <div className="cart__item__info__remove">
           <i className="bx bxs-trash" onClick={removeCartItem} />

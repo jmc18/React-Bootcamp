@@ -7,7 +7,7 @@ const CartReducer = (state, action) => {
     case CartActions.ADD_PRODUCT:
       return {
         ...state,
-        payload
+         items: payload
       }
     case CartActions.UPDATE_PRODUCT:
       return {
