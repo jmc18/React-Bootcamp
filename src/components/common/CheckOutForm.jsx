@@ -7,7 +7,11 @@ import { Grid, Button } from './'
 
 const SignupSchema = Yup.object().shape({
   customerName: Yup.string().min(2, 'The name is too short!').max(50, 'The name is too long!').required('Name is Required'),
-  customerZipCode: Yup.number().min(5, '5 digits are required').max(5, '5 digits are required').required('Zip Code is Required'),
+  customerZipCode: Yup.string()
+    .matches(/^[0-9]+$/, 'Must be only digits')
+    .min(5, 'Must be exactly 5 digits')
+    .max(5, 'Must be exactly 5 digits')
+    .required('Zip Code is Required'),
   customerEmail: Yup.string().email('Invalid email').required('Email is Required')
 })
 
