@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Button, Loading } from './common/index'
 
+import { ErrorBoundary } from './'
+
 //Hooks
 import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
 
@@ -34,28 +36,30 @@ const HeroSlider = ({ controls, auto, timeOut }) => {
   }, [nextSlide, timeOut, auto])
 
   return (
-    <div className="hero-slider">
-      {!isLoading ? (
-        data?.results?.map((item, index) => <HeroSliderItem key={index} item={item} active={index === activeSlide} />)
-      ) : (
-        <Loading text="Loading HeroSlider..." styles={{ height: '100%' }} />
-      )}
-      {controls && !isLoading && (
-        <div className="control">
-          <div className="item" onClick={prevSlide}>
-            <i className="bx bx-chevron-left" />
-          </div>
-          <div className="item">
-            <div className="index">
-              {activeSlide + 1}/{data?.results?.length}
+    <ErrorBoundary text="Something went wrong with the slider, try reloading the site.">
+      <div className="hero-slider">
+        {!isLoading ? (
+          data?.results?.map((item, index) => <HeroSliderItem key={index} item={item} active={index === activeSlide} />)
+        ) : (
+          <Loading text="Loading HeroSlider..." styles={{ height: '100%' }} />
+        )}
+        {controls && !isLoading && (
+          <div className="control">
+            <div className="item" onClick={prevSlide}>
+              <i className="bx bx-chevron-left" />
+            </div>
+            <div className="item">
+              <div className="index">
+                {activeSlide + 1}/{data?.results?.length}
+              </div>
+            </div>
+            <div className="item" onClick={nextSlide}>
+              <i className="bx bx-chevron-right" />
             </div>
           </div>
-          <div className="item" onClick={nextSlide}>
-            <i className="bx bx-chevron-right" />
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </ErrorBoundary>
   )
 }
 
@@ -74,14 +78,9 @@ const HeroSliderItem = (props) => (
       <div className="info-description">
         <span>{props.item?.data?.description[0]?.text}</span>
       </div>
-      <div className="info-btn">
-        <Button backgroundColor={props.item.color} icon="bx bx-cart" animate={true}>
-          Buy Now
-        </Button>
-      </div>
     </div>
     <div className="item-image">
-      <div className="shape">{}</div>
+      <div className="shape" />
       <img src={props.item.data.main_image.url} alt="" />
     </div>
   </div>

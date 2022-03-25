@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 //Context
 import CartContext from '../context/Cart/CartContext'
 
-import { Helmet } from '../components'
+import { Helmet, ErrorBoundary } from '../components'
 import { Button, CartItem, NotFound } from '../components/common'
 
 import numberWithCommas from '../utils/numberWithCommas'
@@ -39,11 +39,13 @@ const Cart = () => {
         </div>
 
         {cartContext.state.items.length > 0 ? (
-          <div className="cart__list">
-            {cartContext.state.items.map((item) => (
-              <CartItem item={item} key={item.productId} />
-            ))}
-          </div>
+          <ErrorBoundary text="Something went wrong with cart items, try reloading the site.">
+            <div className="cart__list">
+              {cartContext.state.items.map((item) => (
+                <CartItem item={item} key={item.productId} />
+              ))}
+            </div>
+          </ErrorBoundary>
         ) : (
           <NotFound text="You have no products added to your shopping cart" />
         )}

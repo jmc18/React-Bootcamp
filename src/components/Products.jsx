@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { VIEW_TIPE, PAGINATION_TYPE } from '../utils/constants'
 
 import { ProductCard, Grid, NotFound, Pagination } from './common'
+import { ErrorBoundary } from './'
 
 const Products = ({ viewType, data, pageSize = 1 }) => {
   const [page, setPage] = useState(0)
@@ -29,7 +30,7 @@ const Products = ({ viewType, data, pageSize = 1 }) => {
   return !data?.length > 0 ? (
     <NotFound text="Products Not Found" />
   ) : (
-    <>
+    <ErrorBoundary text="Something went wrong with the products section, try reloading the site.">
       <section className="categories">
         <Grid col={4} mdCol={2} smCol={1} gap={20}>
           {productsPage?.map((item) => (
@@ -49,7 +50,7 @@ const Products = ({ viewType, data, pageSize = 1 }) => {
       {viewType === VIEW_TIPE.PRODUCT_LIST && totalPages > 1 && (
         <Pagination activePagination={handlerPagination} totalPages={totalPages} currentPage={page + 1} />
       )}
-    </>
+    </ErrorBoundary>
   )
 }
 
