@@ -34,6 +34,7 @@ export function useSearchTerm(searchTerm, page) {
       } catch (err) {
         setProducts({ data: {}, isLoading: false })
         console.error(err)
+        throw new Error(`Something went wrong with the fetch request: ${err}`)
       }
     }
 

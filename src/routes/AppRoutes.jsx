@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Route, Routes } from 'react-router-dom'
 
-import { Home, ProductList, Product, Search } from '../pages'
+import { Home, ProductList, Product, Search, Cart, CheckOut } from '../pages'
 
 const AppRoutes = () => {
   return (
@@ -11,6 +11,8 @@ const AppRoutes = () => {
       <Route path="/products" element={<ProductList />} />
       <Route path="/product/:productId" element={<Product />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<CheckOut />} />
     </Routes>
   )
 }

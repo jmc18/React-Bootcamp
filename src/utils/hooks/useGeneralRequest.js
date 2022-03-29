@@ -25,6 +25,7 @@ export function useGeneralRequest(request) {
         setResponse({ data, isLoading: false })
       } catch (err) {
         console.error(err)
+        throw new Error(`Something went wrong with the fetch request: ${err}`)
       }
     }
 
