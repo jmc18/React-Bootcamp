@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, Loading } from './common/index'
+import { Loading } from './common/index'
 
-import { ErrorBoundary } from './'
+import { ErrorBoundary } from '.'
 
 //Hooks
 import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
@@ -39,7 +39,11 @@ const HeroSlider = ({ controls, auto, timeOut }) => {
     <ErrorBoundary text="Something went wrong with the slider, try reloading the site.">
       <div className="hero-slider">
         {!isLoading ? (
-          data?.results?.map((item, index) => <HeroSliderItem key={index} item={item} active={index === activeSlide} />)
+          <div data-testid="slides">
+            {data?.results?.map((item, index) => (
+              <HeroSliderItem data-testid="slide-active" key={index} item={item} active={index === activeSlide} />
+            ))}
+          </div>
         ) : (
           <Loading text="Loading HeroSlider..." styles={{ height: '100%' }} />
         )}
