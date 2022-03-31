@@ -37,7 +37,7 @@ const HeroSlider = ({ controls, auto, timeOut }) => {
 
   return (
     <ErrorBoundary text="Something went wrong with the slider, try reloading the site.">
-      <div className="hero-slider">
+      <div data-testid="hero-slider-testid" className="hero-slider">
         {!isLoading ? (
           <div data-testid="slides">
             {data?.results?.map((item, index) => (
