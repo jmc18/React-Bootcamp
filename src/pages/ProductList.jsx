@@ -33,13 +33,15 @@ const ProductList = () => {
     let productsTemp = data?.results
     if (filters.length > 0) {
       productsTemp = productsTemp?.filter((x) => filters.includes(x?.data?.category?.id))
+      setProdusctList(productsTemp)
     }
-    setProdusctList(productsTemp)
   }, [filters, data])
 
   useEffect(() => {
-    setProdusctList(data.results)
-    setLoading(isLoading)
+    if (!isLoading) {
+      setProdusctList(data?.results)
+      setLoading(isLoading)
+    }
   }, [data, isLoading])
 
   useEffect(() => {
@@ -86,7 +88,9 @@ const ProductList = () => {
 
         <div className="product-list__content">
           {!loading ? (
-            <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} pageSize={12} />
+            <div data-testid="produstlist-grid">
+              <Products data={produsctList} viewType={VIEW_TIPE.PRODUCT_LIST} pageSize={12} />
+            </div>
           ) : (
             <Loading text="Loading Products..." />
           )}

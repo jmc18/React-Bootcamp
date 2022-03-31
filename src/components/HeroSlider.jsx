@@ -74,20 +74,22 @@ HeroSlider.propTypes = {
 }
 
 const HeroSliderItem = (props) => (
-  <div className={`slide-item ${props.active ? 'active' : ''}`}>
-    <div className="item-info">
-      <div className="info-title">
-        <span>{props.item.data.title}</span>
+  <ErrorBoundary text="Something went wrong with the slide, try reloading the site.">
+    <div className={`slide-item ${props.active ? 'active' : ''}`}>
+      <div className="item-info">
+        <div className="info-title">
+          <span>{props.item.data.title}</span>
+        </div>
+        <div className="info-description">
+          <span>{props.item?.data?.description[0]?.text}</span>
+        </div>
       </div>
-      <div className="info-description">
-        <span>{props.item?.data?.description[0]?.text}</span>
+      <div className="item-image">
+        <div className="shape" />
+        <img src={props.item.data.main_image.url} alt="" />
       </div>
     </div>
-    <div className="item-image">
-      <div className="shape" />
-      <img src={props.item.data.main_image.url} alt="" />
-    </div>
-  </div>
+  </ErrorBoundary>
 )
 
 export default HeroSlider

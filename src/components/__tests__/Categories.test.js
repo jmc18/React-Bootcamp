@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import { BrowserRouter } from 'react-router-dom'
 import { Categories } from '../'
 import CategoryContext from '../../context/Category/CategoryContext'
 import { mockProductCategories } from '../../utils/mocks/en-us/product-categories'
@@ -30,7 +31,8 @@ describe('Product Category Component', () => {
     render(
       <CategoryContext.Provider value={{ categories: mockProductCategories?.results }}>
         <Categories />
-      </CategoryContext.Provider>
+      </CategoryContext.Provider>,
+      { wrapper: BrowserRouter }
     )
     // get by Text defined in the navBar
     const loadingComponent = screen.getByTestId('category-component')
