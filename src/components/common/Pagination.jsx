@@ -10,9 +10,10 @@ const Pagination = ({ activePagination, totalPages, currentPage }) => {
     activePagination(type)
   }
   return (
-    <section className="pagination">
+    <section data-testid="pagination-control" className="pagination">
       <Grid col={3} mdCol={3} smCol={3} gap={20}>
         <Button
+          isDisabled={currentPage > 1}
           animate={currentPage > 1}
           handler={currentPage > 1 ? () => handlePagination(PAGINATION_TYPE.PREV) : null}
           size="sm"
