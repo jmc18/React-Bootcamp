@@ -12,7 +12,7 @@ const ProductDescription = ({ isMobile, title, info }) => {
 
 ProductDescription.propTypes = {
   title: PropTypes.string,
-  info: PropTypes.string.isRequired,
+  info: PropTypes.string,
   isMobile: PropTypes.bool.isRequired
 }
 

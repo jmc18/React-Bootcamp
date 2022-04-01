@@ -19,12 +19,14 @@ const Product = () => {
   const navigate = useNavigate()
 
   const [previewImg, setPreviewImg] = useState('')
+  const [productNotFound, setProductNotFound] = useState(false)
   const [productInfo, setProductInfo] = useState(null)
   const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     if (!isLoading && data.results_size > 0) {
       setProductInfo(data.results[0])
+      setProductNotFound(true)
       setPreviewImg(data?.results[0]?.data?.mainimage?.url)
     }
   }, [data, isLoading])
@@ -54,7 +56,7 @@ const Product = () => {
     return <Loading text="Loading product data..." />
   }
 
-  return data.results_size <= 0 ? (
+  return !productNotFound ? (
     <NotFound text="Product Not Found" />
   ) : (
     <div data-testid="product-details-component" className="product-details">
@@ -69,7 +71,7 @@ const Product = () => {
         <div className="product-details__images__main">
           <img src={previewImg} alt={productInfo?.data?.mainimage?.alt} />
         </div>
-        <ProductDescription isMobile={false} title="Description" info={productInfo?.data?.description[0].text} />
+        <ProductDescription isMobile={false} title="Description" info={productInfo?.data?.description[0]?.text} />
       </div>
       <div className="product-details__info">
         <h1 className="product-details__info__title">{productInfo?.data?.name}</h1>
@@ -92,7 +94,6 @@ const Product = () => {
             }
           >
             {cartContext.state.items.filter((e) => e.productId === productId).length === 0 ? 'Add To Car' : 'Go To Car'}
-            Add To Car
           </Button>
         </div>
 
@@ -109,7 +110,7 @@ const Product = () => {
             </tbody>
           </table>
         </div>
-        <ProductDescription isMobile={true} title="Description" info={productInfo?.data?.description[0].text} />
+        <ProductDescription isMobile={true} title="Description" info={productInfo?.data?.description[0]?.text} />
       </div>
     </div>
   )

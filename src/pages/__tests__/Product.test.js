@@ -100,11 +100,22 @@ describe('Product page', () => {
     expect(quantityControl).toBeInTheDocument()
   })
 
-  test('It should render the quantity control', () => {
+  test('should show the Go To Car button when the product is already added to the shopping cart.', () => {
+    const mockStateItems = [
+      {
+        productId: 'YZZj4hIAACgAve1w',
+        mainImage: 'https://images.prismic.io/wizeline-academy/04d1d0f6-2047-43fb-b68b-3c57366f489e_1.jpeg?auto=compress,format',
+        productName: 'Andie Mat',
+        unitPrice: 222,
+        quantity: 1,
+        stock: 14
+      }
+    ]
+
     useGeneralRequest.mockImplementation(() => ({ data: mockProduct, isLoading: false }))
 
     render(
-      <CartContext.Provider value={{ state: { items: [] } }}>
+      <CartContext.Provider value={{ state: { items: mockStateItems } }}>
         <CategoryContext.Provider value={{ categories: mockProductCategories.results }}>
           <Product />
         </CategoryContext.Provider>
@@ -112,15 +123,10 @@ describe('Product page', () => {
       { wrapper: BrowserRouter }
     )
 
-    const notFoundComponent = screen.findAllByText('Product Not Found')
-    const loadingComponent = screen.findAllByText('Loading product data...')
-    const productPage = screen.getByTestId('product-details-component')
-    const quantityControl = screen.getByTestId('quantity-control')
+    const button = screen.findAllByText(/Go To Car/i)
+    console.log(button)
 
     //Assert
-    expect(notFoundComponent).toBeNull
-    expect(loadingComponent).toBeNull
-    expect(productPage).toBeInTheDocument()
-    expect(quantityControl).toBeInTheDocument()
+    expect(button).toBeInTheDocument()
   })
 })

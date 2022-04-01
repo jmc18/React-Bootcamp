@@ -8,7 +8,7 @@ export const mockProduct = {
   prev_page: null,
   results: [
     {
-      id: 'YZZ_XhIAAC0AvmiA',
+      id: 'YZZj4hIAACgAve1w',
       uid: null,
       url: null,
       type: 'product',

@@ -16,7 +16,7 @@ const ProductDetailInfo = ({ title, info }) => {
 
 ProductDetailInfo.propTypes = {
   title: PropTypes.string,
-  info: PropTypes.string.isRequired
+  info: PropTypes.string
 }
 
 export default ProductDetailInfo
