@@ -19,13 +19,11 @@ const Product = () => {
   const navigate = useNavigate()
 
   const [previewImg, setPreviewImg] = useState('')
-  const [productNotFound, setProductNotFound] = useState(false)
   const [productInfo, setProductInfo] = useState(null)
   const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     if (!isLoading && data.results_size > 0) {
-      setProductNotFound(true)
       setProductInfo(data.results[0])
       setPreviewImg(data?.results[0]?.data?.mainimage?.url)
     }
@@ -56,10 +54,10 @@ const Product = () => {
     return <Loading text="Loading product data..." />
   }
 
-  return !productNotFound ? (
+  return data.results_size <= 0 ? (
     <NotFound text="Product Not Found" />
   ) : (
-    <div className="product-details">
+    <div data-testid="product-details-component" className="product-details">
       <div className="product-details__images">
         <div className="product-details__images__list">
           {productInfo?.data?.images.map((img, index) => (
@@ -93,6 +91,7 @@ const Product = () => {
               cartContext.state.items.filter((e) => e.productId === productId).length === 0 ? addProductToCart() : handleNavigate('/cart')
             }
           >
+            {cartContext.state.items.filter((e) => e.productId === productId).length === 0 ? 'Add To Car' : 'Go To Car'}
             Add To Car
           </Button>
         </div>

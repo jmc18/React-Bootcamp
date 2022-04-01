@@ -45,6 +45,20 @@ describe('Product list page', () => {
     expect(produstListGrid).toBeInTheDocument()
   })
 
+  test('It should render the category sidebar', () => {
+    useGeneralRequest.mockImplementation(() => ({ data: mockProducts, isLoading: false }))
+    //Arrage
+    render(
+      <CategoryContext.Provider value={{ categories: mockProductCategories.results }}>
+        <ProductList />
+      </CategoryContext.Provider>,
+      { wrapper: BrowserRouter }
+    )
+    const categorySection = screen.getByText('Categories')
+    //Assert
+    expect(categorySection).toBeInTheDocument()
+  })
+
   test('It should render pagination', () => {
     useGeneralRequest.mockImplementation(() => ({ data: mockProducts, isLoading: false }))
     //Arrage
@@ -54,12 +68,12 @@ describe('Product list page', () => {
       </CategoryContext.Provider>,
       { wrapper: BrowserRouter }
     )
-    const produstListGrid = screen.getByTestId('pagination-control')
+    const paginationControl = screen.getByTestId('pagination-control')
     //Assert
-    expect(produstListGrid).toBeInTheDocument()
+    expect(paginationControl).toBeInTheDocument()
   })
 
-  test('It should not render pagination', () => {
+  test('It shouldn´t render pagination', () => {
     useGeneralRequest.mockImplementation(() => ({ data: mockProducts, isLoading: false }))
     //Arrage
     render(

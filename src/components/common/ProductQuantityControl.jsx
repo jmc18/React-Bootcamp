@@ -7,7 +7,7 @@ const ProductQuantityControl = ({ updateQuantity, quantity, title }) => {
   }
 
   return (
-    <div className="product-details__info__item">
+    <div data-testid="quantity-control" className="product-details__info__item">
       {title && <div className="product-details__info__item__title">{title}</div>}
       <div className="product-details__info__item__quantity">
         <div className="product-details__info__item__quantity__btn" onClick={() => handleUpdateQuantity('minus')}>
