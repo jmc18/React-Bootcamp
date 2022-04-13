@@ -36,7 +36,9 @@ const Home = () => {
           {isLoading ? (
             <Loading text="Loading Featured Products..." />
           ) : data?.results_size > 0 ? (
-            <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={data?.results} pageSize={1} />
+            <div data-testid="home-product-grid">
+              <Products viewType={VIEW_TIPE.FEATURED_PRODUCTS} data={data?.results} pageSize={1} />
+            </div>
           ) : (
             <NotFound text="Featured Product Not Found" />
           )}

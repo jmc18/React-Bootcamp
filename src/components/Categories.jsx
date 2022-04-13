@@ -11,7 +11,7 @@ const Categories = () => {
   return !categories ? (
     <Loading text="Loading Categories..." styles={{ height: '100%' }} />
   ) : (
-    <section className="categories">
+    <section data-testid="category-component" className="categories">
       <Grid col={5} mdCol={2} smCol={1} gap={20}>
         {categories.map((item) => (
           <CategoryCard

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, Loading } from './common/index'
+import { Loading } from './common/index'
 
-import { ErrorBoundary } from './'
+import { ErrorBoundary } from '.'
 
 //Hooks
 import { useGeneralRequest } from '../utils/hooks/useGeneralRequest'
@@ -37,9 +37,13 @@ const HeroSlider = ({ controls, auto, timeOut }) => {
 
   return (
     <ErrorBoundary text="Something went wrong with the slider, try reloading the site.">
-      <div className="hero-slider">
+      <div data-testid="hero-slider-testid" className="hero-slider">
         {!isLoading ? (
-          data?.results?.map((item, index) => <HeroSliderItem key={index} item={item} active={index === activeSlide} />)
+          <div data-testid="slides">
+            {data?.results?.map((item, index) => (
+              <HeroSliderItem data-testid="slide-active" key={index} item={item} active={index === activeSlide} />
+            ))}
+          </div>
         ) : (
           <Loading text="Loading HeroSlider..." styles={{ height: '100%' }} />
         )}
@@ -70,20 +74,22 @@ HeroSlider.propTypes = {
 }
 
 const HeroSliderItem = (props) => (
-  <div className={`slide-item ${props.active ? 'active' : ''}`}>
-    <div className="item-info">
-      <div className="info-title">
-        <span>{props.item.data.title}</span>
+  <ErrorBoundary text="Something went wrong with the slide, try reloading the site.">
+    <div className={`slide-item ${props.active ? 'active' : ''}`}>
+      <div className="item-info">
+        <div className="info-title">
+          <span>{props.item.data.title}</span>
+        </div>
+        <div className="info-description">
+          <span>{props.item?.data?.description[0]?.text}</span>
+        </div>
       </div>
-      <div className="info-description">
-        <span>{props.item?.data?.description[0]?.text}</span>
+      <div className="item-image">
+        <div className="shape" />
+        <img src={props.item.data.main_image.url} alt="" />
       </div>
     </div>
-    <div className="item-image">
-      <div className="shape" />
-      <img src={props.item.data.main_image.url} alt="" />
-    </div>
-  </div>
+  </ErrorBoundary>
 )
 
 export default HeroSlider

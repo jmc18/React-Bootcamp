@@ -25,8 +25,8 @@ const Product = () => {
 
   useEffect(() => {
     if (!isLoading && data.results_size > 0) {
-      setProductNotFound(true)
       setProductInfo(data.results[0])
+      setProductNotFound(true)
       setPreviewImg(data?.results[0]?.data?.mainimage?.url)
     }
   }, [data, isLoading])
@@ -59,7 +59,7 @@ const Product = () => {
   return !productNotFound ? (
     <NotFound text="Product Not Found" />
   ) : (
-    <div className="product-details">
+    <div data-testid="product-details-component" className="product-details">
       <div className="product-details__images">
         <div className="product-details__images__list">
           {productInfo?.data?.images.map((img, index) => (
@@ -71,7 +71,7 @@ const Product = () => {
         <div className="product-details__images__main">
           <img src={previewImg} alt={productInfo?.data?.mainimage?.alt} />
         </div>
-        <ProductDescription isMobile={false} title="Description" info={productInfo?.data?.description[0].text} />
+        <ProductDescription isMobile={false} title="Description" info={productInfo?.data?.description[0]?.text} />
       </div>
       <div className="product-details__info">
         <h1 className="product-details__info__title">{productInfo?.data?.name}</h1>
@@ -93,7 +93,7 @@ const Product = () => {
               cartContext.state.items.filter((e) => e.productId === productId).length === 0 ? addProductToCart() : handleNavigate('/cart')
             }
           >
-            Add To Car
+            {cartContext.state.items.filter((e) => e.productId === productId).length === 0 ? 'Add To Car' : 'Go To Car'}
           </Button>
         </div>
 
@@ -110,7 +110,7 @@ const Product = () => {
             </tbody>
           </table>
         </div>
-        <ProductDescription isMobile={true} title="Description" info={productInfo?.data?.description[0].text} />
+        <ProductDescription isMobile={true} title="Description" info={productInfo?.data?.description[0]?.text} />
       </div>
     </div>
   )

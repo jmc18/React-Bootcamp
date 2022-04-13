@@ -31,7 +31,7 @@ const Products = ({ viewType, data, pageSize = 1 }) => {
     <NotFound text="Products Not Found" />
   ) : (
     <ErrorBoundary text="Something went wrong with the products section, try reloading the site.">
-      <section className="categories">
+      <section>
         <Grid col={4} mdCol={2} smCol={1} gap={20}>
           {productsPage?.map((item) => (
             <ProductCard
